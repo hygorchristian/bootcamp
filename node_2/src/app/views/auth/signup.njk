@@ -1,30 +1,35 @@
-{% extends "_layouts/auth.njk" %} {% block body %}
-<form action="/signup" method="post" enctype="multipart/form-data">
-  <label for="avatar">
-    <img src="images/avatar.svg" height="24" />
-  </label>
+{% extends "_layouts/auth.njk" %}
+{% block body %}
+  <form action="/signup" method="post" enctype="multipart/form-data">
+    <label for="avatar">
+      <img src="images/avatar.svg" height="24"/>
+    </label>
 
-  <input type="file" id="avatar" name="avatar" />
-  <input type="text" name="name" placeholder="Nome completo" />
-  <input type="email" name="email" placeholder="Seu e-mail" />
-  <input type="password" name="password" placeholder="Senha secreta" />
+    <input type="file" id="avatar" name="avatar"/>
+    <input type="text" name="name" placeholder="Nome completo"/>
+    <input type="email" name="email" placeholder="Seu e-mail"/>
+    <input type="password" name="password" placeholder="Senha secreta"/>
 
-  <label for="provider">
-    <input type="checkbox" id="provider" name="provider" value="1" />
-    Sou cabelereiro
-  </label>
-  <button type="submit">Criar conta</button>
+    <label for="provider">
+      <input type="checkbox" id="provider" name="provider" value="1"/>
+      Sou cabelereiro
+    </label>
 
-  <a href="/">Já possuo conta</a>
+    {% include "_partials/flash.njk" %}
+    <button type="submit">Criar conta</button>
 
-  <script>
-    var avatarInput = document.getElementById("avatar");
-    var img = document.querySelector("label[for=avatar] img");
+    <a href="/">Já possuo conta</a>
 
-    avatarInput.onchange = function(e) {
-      img.classList.add("preview");
-      img.src = URL.createObjectURL(e.target.files[0]);
-    };
-  </script>
-</form>
+    <script>
+      var avatarInput = document.getElementById("avatar");
+      var img = document.querySelector("label[for=avatar] img");
+
+      avatarInput.onchange = function (e) {
+        img
+          .classList
+          .add("preview");
+        img.src = URL.createObjectURL(e.target.files[0]);
+      };
+    </script>
+  </form>
 {% endblock %}
