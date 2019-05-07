@@ -9,13 +9,11 @@ routes.delete('/users/:id', controllers.UserController.remove)
 
 routes.post('/sessions', controllers.SessionController.store)
 
-routes.use(authMiddleware)
-
 /* -- ADS -- */
 routes.get('/ads', controllers.AdController.index)
 routes.get('/ads/:id', controllers.AdController.show)
-routes.post('/ads', controllers.AdController.store)
-routes.put('/ads/:id', controllers.AdController.update)
-routes.delete('/ads/:id', controllers.AdController.destroy)
+routes.post('/ads', authMiddleware, controllers.AdController.store)
+routes.put('/ads/:id', authMiddleware, controllers.AdController.update)
+routes.delete('/ads/:id', authMiddleware, controllers.AdController.destroy)
 
 module.exports = routes

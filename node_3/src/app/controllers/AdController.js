@@ -1,8 +1,38 @@
+/* eslint-disable camelcase */
 const Ad = require('../models/Ad')
 
 class AdController {
   async index (req, res) {
-    const ads = await Ad.find()
+    const filters = {}
+    const { price_min, price_max, title, q } = req.query
+
+    if (price_min || price_max) {
+      filters.price = {}
+
+      if (price_min) {
+        filters.price.$gte = price_min
+      }
+
+      if (price_max) {
+        filters.price.$lte = price_max
+      }
+    }
+
+    if (title) {
+      filters.title = new RegExp(title, 'i')
+    }
+
+    if (q) {
+      const regex = new RegExp(q, 'i')
+      filters.$or = [{ title: regex }, { description: regex }]
+    }
+
+    const ads = await Ad.paginate(filters, {
+      page: req.query.page || 1,
+      limit: 20,
+      populate: ['author'],
+      sort: '-createdAt'
+    })
 
     return res.json(ads)
   }
