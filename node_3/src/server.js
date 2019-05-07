@@ -14,8 +14,10 @@ class App {
 
   database () {
     const url = DBUtils.getConnectionUrl()
-    console.log('url -> ', url)
-    mongoose.connect(url)
+    mongoose.connect(url, {
+      useCreateIndex: true,
+      useNewUrlParser: true
+    })
   }
 
   middlewares () {
