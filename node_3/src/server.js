@@ -1,12 +1,21 @@
 const express = require('express')
+const mongoose = require('mongoose')
+const DBUtils = require('./config/database-util')
 
 class App {
   constructor () {
     this.express = express()
     this.isDev = process.env.NODE_ENV !== 'production'
 
+    this.database()
     this.middlewares()
     this.routes()
+  }
+
+  database () {
+    const url = DBUtils.getConnectionUrl()
+    console.log('url -> ', url)
+    mongoose.connect(url)
   }
 
   middlewares () {
