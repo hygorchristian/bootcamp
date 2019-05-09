@@ -63,6 +63,7 @@ class AdController {
 
     return res.json({ ad })
   }
+  
   async destroy (req, res) {
     const { id } = req.params
     await Ad.findByIdAndDelete(id)

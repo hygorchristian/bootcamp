@@ -16,4 +16,7 @@ routes.post('/ads', authMiddleware, controllers.AdController.store)
 routes.put('/ads/:id', authMiddleware, controllers.AdController.update)
 routes.delete('/ads/:id', authMiddleware, controllers.AdController.destroy)
 
+/* -- Purchases -- */
+routes.post('/purchases', authMiddleware, controllers.PurchaseController.store)
+
 module.exports = routes
