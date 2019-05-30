@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Container } from './styles';
 
-export default class  extends Component {
+export default class Header extends Component {
   //
   state = {};
 
