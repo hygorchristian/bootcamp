@@ -9,7 +9,7 @@ import {
  Container, Current, Volume, Progress, Controls, Time, ProgressSlider
 } from './styles';
 
-import volume from '../../assets/images/volume.svg';
+import VolumeIcon from '../../assets/images/volume.svg';
 import ShuffleIcon from '../../assets/images/shuffle.svg';
 import BackIcon from '../../assets/images/backward.svg';
 import PlayIcon from '../../assets/images/play.svg';
@@ -18,7 +18,9 @@ import ForwardIcon from '../../assets/images/forward.svg';
 import RepeatIcon from '../../assets/images/repeat.svg';
 
 const Player = ({
- player: { currentSong, status }, play, pause, next, prev, playing, duration, position
+  player: { currentSong, status, position: playerPosition, volume },
+  play, pause, next, prev, playing, duration, position, setVolume,
+  handlePosition, setPosition, positionShown, progress
 }) => (
   <Container>
     {
@@ -29,6 +31,8 @@ const Player = ({
           onFinishedPlaying={next}
           onPlaying={playing}
           onLoad={() => {}}
+          position={playerPosition}
+          volume={volume}
         />
       )
     }
@@ -77,13 +81,16 @@ const Player = ({
       </Controls>
 
       <Time>
-        <span>{position}</span>
+        <span>{positionShown || position}</span>
         <ProgressSlider>
           <Slider
             railStyle={{ background: '#404040', borderRadius: 10 }}
             trackStyle={{ background: '#1ed760' }}
             handleStyle={{ border: 0 }}
-            value={80}
+            max={1000}
+            onChange={value => handlePosition(value / 1000)}
+            onAfterChange={value => setPosition(value / 1000)}
+            value={progress}
           />
         </ProgressSlider>
         <span>{duration}</span>
@@ -91,18 +98,21 @@ const Player = ({
     </Progress>
 
     <Volume>
-      <img src={volume} alt="volume" />
+      <img src={VolumeIcon} alt="volume" />
       <Slider
         railStyle={{ background: '#404040', borderRadius: 10 }}
         trackStyle={{ background: '#fff' }}
         handleStyle={{ display: 'none' }}
-        value={80}
+        onChange={setVolume}
+        value={volume}
       />
     </Volume>
   </Container>
 );
 
 const msToTime = (duration) => {
+  if (!duration) return null;
+
   let seconds = parseInt((duration / 1000) % 60, 10);
   const minutes = parseInt(((duration / (1000 * 60)) % 60), 10);
 
@@ -114,7 +124,9 @@ const msToTime = (duration) => {
 const mapStateToProps = ({ player }) => ({
   player,
   position: msToTime(player.position),
-  duration: msToTime(player.duration)
+  duration: msToTime(player.duration),
+  positionShown: msToTime(player.positionShown),
+  progress: parseInt(((player.positionShown || player.position) * (1000 / player.duration)), 10) || 0
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators(PlayerActions, dispatch);
