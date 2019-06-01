@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container } from './styles';
+import { Container, Search, User } from './styles';
 
 export default class Header extends Component {
   //
@@ -7,7 +7,16 @@ export default class Header extends Component {
 
   render() {
     return (
-      <Container>{}</Container>
+      <Container>
+        <Search>
+          <input placeholder="Search" />
+        </Search>
+
+        <User>
+          <img src="https://randomuser.me/api/portraits/men/17.jpg" alt="Avatar" />
+          Hygor Dias
+        </User>
+      </Container>
     );
   }
 }

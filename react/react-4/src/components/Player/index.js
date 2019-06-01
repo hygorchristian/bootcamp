@@ -1,8 +1,10 @@
 import React from 'react';
 import Slider from 'rc-slider';
+import Sound from 'react-sound';
+import {connect} from "react-redux";
 
 import {
- Container, Current, Volume, Progress, Controls, Time, ProgressSlider 
+ Container, Current, Volume, Progress, Controls, Time, ProgressSlider
 } from './styles';
 
 import volume from '../../assets/images/volume.svg';
@@ -13,8 +15,14 @@ import PauseIcon from '../../assets/images/pause.svg';
 import ForwardIcon from '../../assets/images/forward.svg';
 import RepeatIcon from '../../assets/images/repeat.svg';
 
-const Player = () => (
+const Player = ({player: {currentSong, status}}) => (
   <Container>
+    {
+      !!currentSong && (
+        <Sound url={currentSong.file} playStatus={status} />
+      )
+    }
+
     <Current>
       <img src="https://upload.wikimedia.org/wikipedia/en/thumb/3/3b/Stone_sour.jpg/220px-Stone_sour.jpg" alt="Album" />
       <div>
@@ -68,4 +76,9 @@ const Player = () => (
   </Container>
 );
 
-export default Player;
+
+const mapStateToProps = ({ player }) => ({
+  player
+});
+export default connect(mapStateToProps)(Player);
+
