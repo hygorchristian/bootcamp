@@ -25,22 +25,22 @@ export const Header = styled.div`
     height: 220px;
   }
   
-  div{
+  div {
     margin-left:20px;
     
-    span{
+    span {
       font-size: 11px;
       letter-spacing: 1.11px;
       font-weight: 300;
       text-transform: uppercase;
     }
     
-    h1{
+    h1 {
       margin-top: 10px;
       font-size: 48px;
     }
     
-    p{
+    p {
       margin-top: 0;
       color: #b3b3b3;
       font-size: 11px;
@@ -80,7 +80,7 @@ export const SongList = styled.table`
   text-align: left;
   margin-top: 20px;
   
-  thead th{
+  thead th {
     font-size: 11px;
     color: #b3b3b3;
     letter-spacing: 1.11px;
@@ -92,24 +92,28 @@ export const SongList = styled.table`
     text-align: right;
     }
   }
-  
-  tbody td{
+`;
+
+export const SongItem = styled.tr`
+  td {
     border-top: 1px solid #282828;
     font-size: 13px;
     padding: 0 10px;
     line-height: 40px;
+    background: ${props => (props.selected ? '#282828' : 'transparent')};
+    color: ${props => (props.playing ? '#1ed760' : '#ffffff')};
     
-    &:first-child{
+    &:first-child {
       width: 80px;
       text-align: right;
     }
     
-    &:last-child{
+    &:last-child {
       text-align: right;
     }
   }
   
-  tbody tr:hover td{
+  &:hover td {
     background: #282828;
     cursor: pointer;
   }

@@ -10,6 +10,7 @@ export const Container = styled.div`
 `;
 
 export const Current = styled.div`
+  width: 220px;
   display: flex;
   align-items: center;
   
@@ -75,14 +76,14 @@ export const Time = styled.div`
   margin-top: 5px;
   
   span{
+    width: 50px;
     font-size: 11px;
     color: #b3b3b3;
+    text-align: center;
   }
   
 `;
 export const ProgressSlider = styled.div`
   width: 500px;
-  margin: 0 15px;
-  
-  
+  margin: 0;  
 `;
