@@ -5,13 +5,17 @@ import {
   Container, PodcastList, PageTitle, Podcast, Cover, Title, Count, Info,
 } from './styles';
 import { PodcastsActions } from '../../store/ducks/podcasts';
-import { ExampleActions } from '../../store/ducks/example';
 
 class Main extends React.Component {
+  handlePodcastPress = (podcast) => {
+    const { navigation } = this.props;
+
+    navigation.navigate('Podcast', { podcast });
+  }
+
   componentWillMount() {
-    // const { loadPodcastsRequest } = this.props;
-    console.tron.log(this.props);
-    // loadPodcastsRequest();
+    const { loadPodcastsRequest } = this.props;
+    loadPodcastsRequest();
   }
 
   render() {
@@ -23,7 +27,7 @@ class Main extends React.Component {
           data={podcasts.data}
           keyExtractor={podcast => String(podcast.id)}
           renderItem={({ item: podcast }) => (
-            <Podcast onPress={() => {}}>
+            <Podcast onPress={() => this.handlePodcastPress(podcast)}>
               <Cover source={{ uri: podcast.cover }} />
               <Info>
                 <Title>{podcast.title}</Title>
@@ -31,6 +35,8 @@ class Main extends React.Component {
               </Info>
             </Podcast>
           )}
+          refreshing={podcasts.loading}
+          onRefresh={() => {}}
         />
       </Container>
     );
@@ -42,7 +48,7 @@ const mapStateToProps = ({ podcasts }) => ({
 });
 
 const mapDipatchToProps = dispatch => bindActionCreators({
-  ...PodcastsActions, ...ExampleActions
+  ...PodcastsActions,
 }, dispatch);
 
 export default connect(mapStateToProps, mapDipatchToProps)(Main);
