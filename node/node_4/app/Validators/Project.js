@@ -13,7 +13,7 @@ class Project {
     }
   }
 
-  get messages() {
+  get messages () {
     return Antl.list('validation')
   }
 }
