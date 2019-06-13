@@ -11,6 +11,8 @@ class PedidoProdutoSchema extends Schema {
       table.foreign('pedido_id').references('id').on('pedidos').onDelete('cascade')
       table.integer('produto_tamanho_id').unsigned().index()
       table.foreign('produto_tamanho_id').references('id').on('produto_tamanhos').onDelete('cascade')
+      table.integer('quantidade').notNullable()
+      table.string('status')
       table.timestamps()
     })
   }

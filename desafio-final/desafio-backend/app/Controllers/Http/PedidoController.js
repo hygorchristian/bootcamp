@@ -1,9 +1,10 @@
 'use strict'
 
 const Pedido = use('App/Models/Pedido')
+const Ws = use('Ws')
 
 class PedidoController {
-  async index ({ request, response, view }) {
+  async index () {
     const pedidos = await Pedido.all()
     // const pedidos = await Pedido.query().with('fiield').fetch()
 
@@ -13,31 +14,38 @@ class PedidoController {
   async store ({ request, auth }) {
     const { itens, ...data } = request.only(['valor_total', 'itens'])
 
-    const pedido = await Pedido.create({ ...data, usuario_id: auth.user.id })
+    const pedido = await Pedido.create({ ...data, status: 'criado', usuario_id: auth.user.id })
     await pedido.itens().sync(itens)
 
     return pedido
   }
 
-  async show ({ params, request, response, view }) {
+  async show ({ params }) {
     const pedido = await Pedido.findOrFail(params.id)
+    await pedido.load('itens')
 
     return pedido
   }
 
-  async update ({ params, request, response }) {
+  async update ({ params, request }) {
     const pedido = await Pedido.findOrFail(params.id)
-    const { itens, ...data } = request.only(['valor_total', 'itens'])
+    const data = request.only(['status'])
 
     pedido.merge(data)
 
     await pedido.save()
-    await pedido.itens().sync(itens)
+
+    const socket = Ws.getChannel('pedido:*').topic(`pedido:${pedido.id}`)
+
+    if (socket) {
+      console.log("socket -> ", JSON.stringify(socket))
+      socket.broadcast('status', pedido.status)
+    }
 
     return pedido
   }
 
-  async destroy ({ params, request, response }) {
+  async destroy ({ params }) {
     const pedido = await Pedido.findOrFail(params.id)
     pedido.delete()
   }

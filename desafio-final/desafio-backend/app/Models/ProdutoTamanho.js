@@ -12,8 +12,6 @@ class ProdutoTamanho extends Model {
       tamanho.valor = valor
       tamanho.quantidade = quantidade
       tamanho.tamanho_id = tamanho_id
-
-      console.log('ProdutoTamanho -> ', tamanho)
     })
   }
 }

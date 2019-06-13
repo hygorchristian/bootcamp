@@ -4,13 +4,14 @@
 const Model = use('Model')
 
 class Pedido extends Model {
-  async usuario () {
+  usuario () {
     return this.belongsTo('App/Models/User')
   }
 
-  async itens () {
+  itens () {
     return this.belongsToMany('App/Models/ProdutoTamanho')
-      .pivotTable('pedido_produtos')
+      .pivotModel('App/Models/PedidoProduto')
+      .withPivot(['quantidade'])
   }
 }
 

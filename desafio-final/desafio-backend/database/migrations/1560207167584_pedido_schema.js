@@ -10,6 +10,7 @@ class PedidoSchema extends Schema {
       table.integer('usuario_id').unsigned().index()
       table.foreign('usuario_id').references('id').on('users').onDelete('cascade')
       table.decimal('valor_total', 2)
+      table.string('status').notNullable()
       table.timestamps()
     })
   }

@@ -43,3 +43,6 @@ Route.get('/produtos/:id', 'ProdutoController.show')
 Route.post('/produtos', 'ProdutoController.store').middleware(['auth', 'file'])
 Route.put('/produtos/:id', 'ProdutoController.update').middleware(['auth', 'file'])
 Route.delete('/produtos/:id', 'ProdutoController.destroy').middleware('auth')
+
+// Pedidos
+Route.resource('/pedidos', 'PedidoController').apiOnly().middleware('auth')
