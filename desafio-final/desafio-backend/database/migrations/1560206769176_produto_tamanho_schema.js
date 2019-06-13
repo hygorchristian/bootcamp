@@ -13,12 +13,6 @@ class ProdutoTamanhoSchema extends Schema {
       table.foreign('tamanho_id').references('id').on('tamanhos').onDelete('cascade')
       table.decimal('valor', 2).notNullable()
       table.integer('quantidade')
-      table.integer('file_id')
-        .unsigned()
-        .references('id')
-        .inTable('files')
-        .onUpdate('CASCADE')
-        .onDelete('SET NULL')
       table.timestamps()
     })
   }

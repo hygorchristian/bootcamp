@@ -5,7 +5,6 @@ const Tamanho = use('App/Models/Tamanho')
 class TamanhoController {
   async index ({ request, response, view }) {
     const tamanhos = await Tamanho.all()
-    // const tamanhos = await Tamanho.query().with('fiield').fetch()
 
     return tamanhos
   }

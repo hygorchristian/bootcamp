@@ -4,7 +4,9 @@
 const Model = use('Model')
 
 class Categoria extends Model {
-
+  file () {
+    return this.belongsTo('App/Models/File')
+  }
 }
 
 module.exports = Categoria

@@ -4,16 +4,17 @@
 const Model = use('Model')
 
 class Produto extends Model {
-  async categoria () {
+  categoria () {
     return this.belongsTo('App/Models/Categoria')
   }
 
-  async tamanhos () {
+  tamanhos () {
     return this.belongsToMany('App/Models/Tamanho')
-      .pivotTable('produto_tamanhos')
+      .pivotModel('App/Models/ProdutoTamanho')
+      .withPivot(['valor', 'quantidade'])
   }
 
-  async file () {
+  file () {
     return this.belongsTo('App/Models/File')
   }
 }

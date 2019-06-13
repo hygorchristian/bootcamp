@@ -3,30 +3,30 @@
 const Categoria = use('App/Models/Categoria')
 
 class CategoriaController {
-  async index ({ request, response, view }) {
-    const categorias = await Categoria.all()
-    // const categorias = await Categoria.query().with('fiield').fetch()
-
+  async index () {
+    const categorias = await Categoria.query().with('file').fetch()
     return categorias
   }
 
-  async store ({ request, response, auth }) {
-    // todo: const data = request.only(['title', 'description'])
+  async store ({ request }) {
+    const data = request.only(['nome'])
+    data.file_id = request.file_id
 
-    const categoria = await Categoria.create({ ...data, user_id: auth.user.id })
-
-    return categoria
-  }
-
-  async show ({ params, request, response, view }) {
-    const categoria = await Categoria.findOrFail(params.id)
+    const categoria = await Categoria.create(data)
 
     return categoria
   }
 
-  async update ({ params, request, response }) {
+  async show ({ params }) {
     const categoria = await Categoria.findOrFail(params.id)
-    // todo: const data = request.only(['title', 'description'])
+    await categoria.load('file')
+
+    return categoria
+  }
+
+  async update ({ params, request }) {
+    const categoria = await Categoria.findOrFail(params.id)
+    const data = request.only(['file_id', 'nome'])
 
     categoria.merge(data)
 
@@ -35,7 +35,7 @@ class CategoriaController {
     return categoria
   }
 
-  async destroy ({ params, request, response }) {
+  async destroy ({ params }) {
     const categoria = await Categoria.findOrFail(params.id)
     categoria.delete()
   }
