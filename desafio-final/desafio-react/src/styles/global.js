@@ -16,7 +16,6 @@ export default createGlobalStyle`
     text-rendering: optimizeLegibility !important;
     -webkit-font-smoothing: antialiased !important;
     font-family: 'Helvetica', sans-serif;
-    color: #ffffff;
   }
   
   button{  

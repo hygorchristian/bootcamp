@@ -9,3 +9,9 @@ const api = axios.create({
 });
 
 export const performLogin = data => api.post('/sessions', data);
+
+export const fetchOrders = token => api.get('/pedidos', {
+  headers: {
+    Authorization: `Bearer ${token}`
+  }
+});

@@ -15,7 +15,6 @@ class ProdutoController {
     data.file_id = request.file_id
 
     const produto = await Produto.create(data)
-    console.log('tamanhos ->', tamanhos)
 
     if (tamanhos && tamanhos.length > 0) {
       produto.tamanhos().attach(tamanhos)
@@ -41,8 +40,6 @@ class ProdutoController {
     produto.merge(data)
 
     await produto.save()
-
-    console.log('tamanhos -> ', produto.tamanhos().fetch())
 
     if (tamanhos && tamanhos.length > 0) {
       await produto.tamanhos().sync(tamanhos)

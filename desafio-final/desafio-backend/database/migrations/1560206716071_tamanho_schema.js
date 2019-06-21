@@ -8,6 +8,7 @@ class TamanhoSchema extends Schema {
     this.create('tamanhos', (table) => {
       table.increments()
       table.string('nome', 80).notNullable()
+      table.string('descricao', 80).notNullable()
       table.timestamps()
     })
   }

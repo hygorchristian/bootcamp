@@ -14,6 +14,10 @@ class ProdutoTamanho extends Model {
       tamanho.tamanho_id = tamanho_id
     })
   }
+
+  produto () {
+    return this.belongsTo('App/Models/Produto')
+  }
 }
 
 module.exports = ProdutoTamanho

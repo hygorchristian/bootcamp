@@ -2,35 +2,39 @@ import React, { Component } from 'react';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { PodcastsActions } from '../../store/ducks/podcasts';
+import { PlayerActions } from '../../store/ducks/player';
 
 import {
   Container, CoverBackground, EpisodeInfo, Title, Author,
   Controls, ControlButton, ControlIcon,
 } from './styles';
 
-export default class Player extends Component {
+class Player extends Component {
   componentWillMount() {
     //
   }
 
   render() {
-    return (
+    const {
+      player, currentEpisode, play, pause, next, prev,
+    } = this.props;
+
+    return player.current && (
       <Container>
-        <CoverBackground source={{ uri: 'https://s3-sa-east-1.amazonaws.com/gonative/cover1.png' }} />
+        <CoverBackground source={{ uri: currentEpisode.artwork }} />
         <EpisodeInfo>
-          <Title>Desengo</Title>
-          <Author>Akd eoos</Author>
+          <Title>{currentEpisode.title}</Title>
+          <Author>{currentEpisode.artist}</Author>
         </EpisodeInfo>
 
         <Controls>
-          <ControlButton onPress={() => {}}>
+          <ControlButton onPress={prev}>
             <ControlIcon name="skip-previous" />
           </ControlButton>
-          <ControlButton onPress={() => {}}>
-            <ControlIcon name="play-circle-filled" />
+          <ControlButton onPress={player.playing ? pause : play}>
+            <ControlIcon name={player.playing ? 'pause-circle-filled' : 'play-circle-filled'} />
           </ControlButton>
-          <ControlButton onPress={() => {}}>
+          <ControlButton onPress={next}>
             <ControlIcon name="skip-next" />
           </ControlButton>
         </Controls>
@@ -39,12 +43,15 @@ export default class Player extends Component {
   }
 }
 
-// const mapStateToProps = ({ podcasts }) => ({
-//   podcasts,
-// });
-//
-// const mapDipatchToProps = dispatch => bindActionCreators({
-//   ...PodcastsActions,
-// }, dispatch);
-//
-// export default connect(mapStateToProps, mapDipatchToProps)(Player);
+const mapStateToProps = ({ player }) => ({
+  player,
+  currentEpisode: player.podcast
+    ? player.podcast.tracks.find(episode => episode.id === player.current)
+    : null,
+});
+
+const mapDipatchToProps = dispatch => bindActionCreators({
+  ...PlayerActions,
+}, dispatch);
+
+export default connect(mapStateToProps, mapDipatchToProps)(Player);

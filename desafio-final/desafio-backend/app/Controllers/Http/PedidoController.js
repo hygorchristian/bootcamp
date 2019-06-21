@@ -1,20 +1,53 @@
 'use strict'
 
 const Pedido = use('App/Models/Pedido')
+const ProdutoTamanho = use('App/Models/ProdutoTamanho')
+const Produto = use('App/Models/Produto')
+const Tamanho = use('App/Models/Tamanho')
+const File = use('App/Models/File')
+const User = use('App/Models/User')
+const Database = use('Database')
 const Ws = use('Ws')
 
 class PedidoController {
   async index () {
-    const pedidos = await Pedido.all()
-    // const pedidos = await Pedido.query().with('fiield').fetch()
+
+    const pedidos = await Database
+      .select('*')
+      .from('pedidos')
+
+    for(let i = 0; i < pedidos.length; i++){
+      const pedido = pedidos[i];
+      const itens = await Database
+        .select(['id', 'quantidade', 'produto_tamanho_id'])
+        .from('pedido_produtos')
+        .where('pedido_id', pedido.id)
+
+      const usuario = await User.findByOrFail('id', pedido.user_id)
+
+      for(let j = 0; j < itens.length; j++){
+        const item = itens[j]
+        const produtoTamanho = await ProdutoTamanho.findByOrFail('id', item.produto_tamanho_id)
+        const produto = await Produto.findByOrFail('id', produtoTamanho.produto_id)
+        const tamanho = await Tamanho.findByOrFail('id', produtoTamanho.tamanho_id)
+        const file = await File.findByOrFail('id', produto.file_id)
+
+        item.titulo = produto.nome
+        item.image = file
+        item.tamanho = `${!!produtoTamanho.quantidade ? produtoTamanho.quantidade + ' ' : ''}${tamanho.nome}`
+      }
+
+      pedido.usuario = usuario.username;
+      pedido.itens = itens
+    }
 
     return pedidos
   }
 
   async store ({ request, auth }) {
-    const { itens, ...data } = request.only(['valor_total', 'itens'])
+    const { itens, ...data } = request.only(['valor_total', 'itens', 'observacoes'])
 
-    const pedido = await Pedido.create({ ...data, status: 'criado', usuario_id: auth.user.id })
+    const pedido = await Pedido.create({ ...data, status: 'criado', user_id: auth.user.id })
     await pedido.itens().sync(itens)
 
     return pedido
@@ -38,7 +71,6 @@ class PedidoController {
     const socket = Ws.getChannel('pedido:*').topic(`pedido:${pedido.id}`)
 
     if (socket) {
-      console.log("socket -> ", JSON.stringify(socket))
       socket.broadcast('status', pedido.status)
     }
 

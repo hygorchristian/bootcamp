@@ -7,9 +7,10 @@ class PedidoSchema extends Schema {
   up () {
     this.create('pedidos', (table) => {
       table.increments()
-      table.integer('usuario_id').unsigned().index()
-      table.foreign('usuario_id').references('id').on('users').onDelete('cascade')
+      table.integer('user_id').unsigned().index()
+      table.foreign('user_id').references('id').on('users').onDelete('cascade')
       table.decimal('valor_total', 2)
+      table.text('observacoes')
       table.string('status').notNullable()
       table.timestamps()
     })

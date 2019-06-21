@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
 import { Platform } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import {
   Container, EpisodeList, PodcastDetails, Background, BackButton, Cover,
   PodcastTitle, PlayButton, PlayButtonText, Episode, Title, Author,
 } from './styles';
+import { PlayerActions } from '../../store/ducks/player';
 
 
-export default class Podcast extends Component {
+class Podcast extends Component {
   //
   state = {};
 
@@ -16,8 +19,15 @@ export default class Podcast extends Component {
     navigation.goBack();
   }
 
+  handlePlay = (episodeId) => {
+    const { setPodcastRequest, navigation } = this.props;
+    const podcast = navigation.getParam('podcast');
+
+    setPodcastRequest(podcast, episodeId);
+  }
+
   render() {
-    const { navigation } = this.props;
+    const { navigation, currentEpisode } = this.props;
     const podcast = navigation.getParam('podcast');
 
     return (
@@ -33,7 +43,7 @@ export default class Podcast extends Component {
               )}
               <Cover source={{ uri: podcast.cover }} />
               <PodcastTitle>{podcast.title}</PodcastTitle>
-              <PlayButton>
+              <PlayButton onPress={() => this.handlePlay()}>
                 <PlayButtonText>Reproduzir</PlayButtonText>
               </PlayButton>
             </PodcastDetails>
@@ -41,8 +51,10 @@ export default class Podcast extends Component {
           data={podcast.tracks}
           keyExtractor={episode => String(episode.id)}
           renderItem={({ item: episode }) => (
-            <Episode>
-              <Title>{episode.title}</Title>
+            <Episode onPress={() => this.handlePlay(episode.id)}>
+              <Title active={currentEpisode && currentEpisode.id === episode.id}>
+                {episode.title}
+              </Title>
               <Author>{episode.artist}</Author>
             </Episode>
           )}
@@ -51,3 +63,13 @@ export default class Podcast extends Component {
     );
   }
 }
+
+const mapStateToProps = ({ player }) => ({
+  currentEpisode: player.podcast
+    ? player.podcast.tracks.find(episode => episode.id === player.current)
+    : null,
+});
+
+const mapDipatchToProps = dispatch => bindActionCreators(PlayerActions, dispatch);
+
+export default connect(mapStateToProps, mapDipatchToProps)(Podcast);

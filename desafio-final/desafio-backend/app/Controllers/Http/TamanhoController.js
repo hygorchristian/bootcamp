@@ -3,21 +3,21 @@
 const Tamanho = use('App/Models/Tamanho')
 
 class TamanhoController {
-  async index ({ request, response, view }) {
+  async index () {
     const tamanhos = await Tamanho.all()
 
     return tamanhos
   }
 
-  async store ({ request, response, auth }) {
-    const data = request.only(['nome'])
+  async store ({ request }) {
+    const data = request.only(['nome', 'descricao'])
 
     const tamanho = await Tamanho.create(data)
 
     return tamanho
   }
 
-  async show ({ params, request, response, view }) {
+  async show ({ params }) {
     const tamanho = await Tamanho.findOrFail(params.id)
 
     return tamanho
@@ -25,7 +25,7 @@ class TamanhoController {
 
   async update ({ params, request, response }) {
     const tamanho = await Tamanho.findOrFail(params.id)
-    const data = request.only(['nome'])
+    const data = request.only(['nome', 'descricao'])
 
     tamanho.merge(data)
 
@@ -34,7 +34,7 @@ class TamanhoController {
     return tamanho
   }
 
-  async destroy ({ params, request, response }) {
+  async destroy ({ params }) {
     const tamanho = await Tamanho.findOrFail(params.id)
     tamanho.delete()
   }

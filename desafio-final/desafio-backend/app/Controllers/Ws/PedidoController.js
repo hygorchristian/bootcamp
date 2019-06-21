@@ -12,7 +12,7 @@ class PedidoController {
 
     this.socket.on('status', status => {
       this.socket.toEveryone().emit('status', status)
-      Logger.info('recebesu o status do emiter: ', status)
+      Logger.info('recebeu o status do emiter: ', status)
     })
   }
 }

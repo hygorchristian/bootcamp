@@ -2,10 +2,13 @@ import styled, { css } from 'styled-components';
 
 export const Container = styled.div`
   display: flex;
+  flex-direction: column;
   width: 100%;
+  align-items: center;
 `;
 
 export const Header = styled.header`
+  position: fixed;
   display: flex;
   height: 80px;
   width: 100%;
@@ -35,6 +38,7 @@ export const Logo = styled.img`
 export const Brand = styled.h2`
   font-weight: bold;
   font-size: 18px;
+  color: #ffffff;
 `;
 
 export const Menu = styled.div`
@@ -50,6 +54,7 @@ export const AppInfo = styled.div`
 
 export const UserName = styled.h4`
   font-size: 16px;
+  color: #ffffff;
 `;
 
 export const SignOut = styled.button`
@@ -100,10 +105,14 @@ export const Bag = styled.img`
 
 
 export const Content = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding-top: 120px;
+  width: 710px;
   
-`;
-
-
-export const Notification = styled.div`
-  
+  & > h1{
+    font-size:18px;
+    color:#333333;
+    margin-bottom: 16px;
+  }
 `;
