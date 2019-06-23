@@ -11,13 +11,12 @@ const Ws = use('Ws')
 
 class PedidoController {
   async index () {
-
     const pedidos = await Database
       .select('*')
       .from('pedidos')
 
-    for(let i = 0; i < pedidos.length; i++){
-      const pedido = pedidos[i];
+    for (let i = 0; i < pedidos.length; i++) {
+      const pedido = pedidos[i]
       const itens = await Database
         .select(['id', 'quantidade', 'produto_tamanho_id'])
         .from('pedido_produtos')
@@ -25,7 +24,7 @@ class PedidoController {
 
       const usuario = await User.findByOrFail('id', pedido.user_id)
 
-      for(let j = 0; j < itens.length; j++){
+      for (let j = 0; j < itens.length; j++) {
         const item = itens[j]
         const produtoTamanho = await ProdutoTamanho.findByOrFail('id', item.produto_tamanho_id)
         const produto = await Produto.findByOrFail('id', produtoTamanho.produto_id)
@@ -34,10 +33,10 @@ class PedidoController {
 
         item.titulo = produto.nome
         item.image = file
-        item.tamanho = `${!!produtoTamanho.quantidade ? produtoTamanho.quantidade + ' ' : ''}${tamanho.nome}`
+        item.tamanho = `${produtoTamanho.quantidade ? produtoTamanho.quantidade + ' ' : ''}${tamanho.nome}`
       }
 
-      pedido.usuario = usuario.username;
+      pedido.usuario = usuario.username
       pedido.itens = itens
     }
 

@@ -8,6 +8,8 @@ class CategoriaSchema extends Schema {
     this.create('categorias', (table) => {
       table.increments()
       table.string('nome', 80).notNullable()
+      table.text('descricao').notNullable()
+      table.integer('tempo').notNullable()
       table.integer('file_id')
         .unsigned()
         .references('id')

@@ -9,7 +9,7 @@ class CategoriaController {
   }
 
   async store ({ request }) {
-    const data = request.only(['nome'])
+    const data = request.only(['nome', 'descricao', 'tempo'])
     data.file_id = request.file_id
 
     const categoria = await Categoria.create(data)
@@ -26,7 +26,7 @@ class CategoriaController {
 
   async update ({ params, request }) {
     const categoria = await Categoria.findOrFail(params.id)
-    const data = request.only(['file_id', 'nome'])
+    const data = request.only(['file_id', 'nome', 'descricao', 'tempo'])
 
     categoria.merge(data)
 

@@ -4,9 +4,14 @@ const Produto = use('App/Models/Produto')
 
 class ProdutoController {
   async index ({ request, response, view }) {
-    const produtos = await Produto.all()
-    // const produtos = await Produto.query().with('fiield').fetch()
+    const { categoria } = request.get()
+    const query = Produto.query()
 
+    if (categoria) {
+      query.where('categoria_id', categoria)
+    }
+
+    const produtos = await query.with('file').with('tamanhos').fetch()
     return produtos
   }
 
