@@ -70,7 +70,7 @@ export const ItemContainer = styled.TouchableOpacity.attrs({
   elevation: 8;
   shadow-color: #000;
   shadow-offset: 0 2px;
-  shadow-opacity: 0.8;
+  shadow-opacity: 0.3;
   shadow-radius: 2;
 `;
 
@@ -122,7 +122,6 @@ export const ButtonCart = styled.TouchableOpacity`
   justify-content: center;
   align-items: center;
 `;
-
 
 
 export const Button = styled.TouchableOpacity.attrs({

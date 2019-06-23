@@ -73,19 +73,17 @@ export const ItemContainer = styled.TouchableOpacity.attrs({
   elevation: 8;
   shadow-color: #000;
   shadow-offset: 0 2px;
-  shadow-opacity: 0.8;
+  shadow-opacity: 0.3;
   shadow-radius: 2;
 `;
 
 export const Image = styled.Image`
   width: 130px;
   height: 130px;
-  background-color: red;
 `;
 
 export const Title = styled.Text`
   margin-top: 20px;
   font-size:16px;
   font-weight: bold;
-  color:#0b2031;
 `;

@@ -9,7 +9,7 @@ import {
 import fundo from '../../assets/img/fundo.png';
 import logo from '../../assets/img/logo.png';
 
-const Login = () => (
+const Login = props => (
   <Background
     source={fundo}
     resizeMode="cover"
@@ -21,10 +21,10 @@ const Login = () => (
     />
     <Input placeholder="Seu e-mail" />
     <Input placeholder="Senha secreta" secureTextEntry />
-    <Button>
+    <Button onPress={() => props.navigation.replace('Home')}>
       <ButtonText>Entrar</ButtonText>
     </Button>
-    <Button transparent>
+    <Button transparent onPress={() => props.navigation.navigate('SignUp')}>
       <ButtonText>Criar conta gratuita</ButtonText>
     </Button>
   </Background>

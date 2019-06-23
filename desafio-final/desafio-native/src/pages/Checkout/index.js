@@ -1,33 +1,28 @@
 import React from 'react';
 
 import { StatusBar } from 'react-native';
+import { StackActions, NavigationActions } from 'react-navigation';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import {
   Container, Background, Toolbar, Button, ToolbarTitle, ToolbarPrice,
-  ItemContainer, Image, Title, ButtonDelete, Info, Size, Price,
-  BottomMenu, ButtonCart, ButtonContainer, ButtonText, Form, TextArea,
-  Row, Input
+  BottomMenu, ButtonContainer, ButtonText, Form, TextArea,
+  Row, Input,
 } from './styles';
+import Status from '../../components/Status';
 
 import fundo from '../../assets/img/header-background.png';
 
-class Cart extends React.Component {
-  renderItem = ({ item }) => (
-    <ItemContainer>
-      <Image />
-      <Info>
-        <Title>Pizza Calabresa</Title>
-        <Size>Tamanho: Médio</Size>
-        <Price>R$ 29,90</Price>
-      </Info>
-      <ButtonDelete>
-        <Icon name="delete-forever" size={24} color="#E5293E" />
-      </ButtonDelete>
-    </ItemContainer>
-  )
-
+class Checkout extends React.Component {
   render() {
+    const { navigation: { pop, dispatch } } = this.props;
+    const resetAction = StackActions.reset({
+      index: 0,
+      actions: [
+        NavigationActions.navigate({ routeName: 'Home' }),
+        NavigationActions.navigate({ routeName: 'Orders' }),
+      ],
+    });
     return (
       <>
         <Background
@@ -36,8 +31,9 @@ class Cart extends React.Component {
         />
         <Container>
           <StatusBar barStyle="light-content" backgroundColor="#0B2031" />
+          <Status />
           <Toolbar>
-            <Button>
+            <Button onPress={() => pop()}>
               <Icon name="arrow-back" color="#ffffff" size={24} />
             </Button>
             <ToolbarTitle>Realizar Pedido</ToolbarTitle>
@@ -46,21 +42,18 @@ class Cart extends React.Component {
           <Form>
             <TextArea placeholder="Alguma observação?" />
             <Row>
-              <Input placeholder="" />
+              <Input placeholder="Qual o seu CEP?" />
             </Row>
             <Row>
-              <Input />
-              <Input marginLeft={12} width={95} />
+              <Input placeholder="Rua" />
+              <Input marginLeft={12} width={95} placeholder="Nº" />
             </Row>
             <Row>
-              <Input />
+              <Input placeholder="Bairro" />
             </Row>
           </Form>
           <BottomMenu>
-            <ButtonCart>
-              <Icon name="add-shopping-cart" size={24} color="#666666" />
-            </ButtonCart>
-            <ButtonContainer>
+            <ButtonContainer onPress={() => { dispatch(resetAction); }}>
               <ButtonText>REALIZAR PEDIDO</ButtonText>
               <Icon name="chevron-right" size={24} color="#ffffff" />
             </ButtonContainer>
@@ -71,4 +64,4 @@ class Cart extends React.Component {
   }
 }
 
-export default Cart;
+export default Checkout;

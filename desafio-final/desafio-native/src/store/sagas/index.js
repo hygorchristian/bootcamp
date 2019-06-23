@@ -1,10 +1,14 @@
 import { all, takeLatest } from 'redux-saga/effects';
 
-// import { PodcastsTypes } from '../ducks/podcasts';
-// import { loadPodcasts } from './podcasts';
+import { CategoriasTypes } from '../ducks/categorias';
+import { ProdutosTypes } from '../ducks/produtos';
+
+import { loadCategorias } from './categorias';
+import { loadProdutos } from './produtos';
 
 export default function* () {
   return yield all([
-    // takeLatest(PodcastsTypes.LOAD_REQUEST, loadPodcasts),
+    takeLatest(CategoriasTypes.LOAD_CATEGORIAS_REQUEST, loadCategorias),
+    takeLatest(ProdutosTypes.LOAD_PRODUTOS_REQUEST, loadProdutos),
   ]);
 }

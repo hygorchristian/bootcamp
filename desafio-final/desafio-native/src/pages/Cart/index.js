@@ -10,6 +10,7 @@ import {
 } from './styles';
 
 import fundo from '../../assets/img/header-background.png';
+import Status from '../../components/Status';
 
 class Cart extends React.Component {
   renderItem = ({ item }) => (
@@ -27,6 +28,8 @@ class Cart extends React.Component {
   )
 
   render() {
+    const { navigation: { pop, push, replace } } = this.props;
+
     return (
       <>
         <Background
@@ -35,8 +38,9 @@ class Cart extends React.Component {
         />
         <Container>
           <StatusBar barStyle="light-content" backgroundColor="#0B2031" />
+          <Status />
           <Toolbar>
-            <Button>
+            <Button onPress={() => pop()}>
               <Icon name="arrow-back" color="#ffffff" size={24} />
             </Button>
             <ToolbarTitle>Carrinho</ToolbarTitle>
@@ -48,10 +52,10 @@ class Cart extends React.Component {
             renderItem={this.renderItem}
             ListFooterComponent={() => (
               <BottomMenu>
-                <ButtonCart>
+                <ButtonCart onPress={() => replace('Home')}>
                   <Icon name="add-shopping-cart" size={24} color="#666666" />
                 </ButtonCart>
-                <ButtonContainer>
+                <ButtonContainer onPress={() => push('Checkout')}>
                   <ButtonText>REALIZAR PEDIDO</ButtonText>
                   <Icon name="chevron-right" size={24} color="#ffffff" />
                 </ButtonContainer>

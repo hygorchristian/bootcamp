@@ -1,5 +1,18 @@
 import styled, { css } from 'styled-components';
 
+const statusColor = (status) => {
+  switch (status) {
+    case 'PRONTO':
+      return '#ff0000';
+    case 'EM ANDAMENTO':
+      return '#00FF00';
+    case 'AGUARDANDO':
+      return '#0000FF';
+    default: return '#000000';
+  }
+};
+
+
 export const Container = styled.View`
   height: 100%;
   width: 100%;
@@ -27,15 +40,6 @@ export const ToolbarTitle = styled.Text`
   margin-left: 20px;
 `;
 
-export const ToolbarPrice = styled.Text`
-  flex: 1;
-  text-align: right;
-  color: #ffffff;
-  font-size: 18px;
-  font-weight: bold;
-  margin-left: 20px;
-`;
-
 export const Notification = styled.View`
   position: absolute;
   top: 0;
@@ -54,9 +58,7 @@ export const ItemsList = styled.FlatList.attrs({
   height: 100%;
 `;
 
-export const ItemContainer = styled.TouchableOpacity.attrs({
-  activeOpacity: 0.8,
-})`
+export const ItemContainer = styled.View`
   flex-direction: row;
   align-items: center;
   
@@ -87,6 +89,17 @@ export const Info = styled.View`
 export const Title = styled.Text`
   font-size:16px;
   color:#0b2031;
+`;
+
+export const Description = styled.Text`
+  font-size:14px;
+  color:#706e7b;
+  margin-top: 5px;
+`;
+
+export const OrderStatus = styled.Text`
+  font-size:16px;
+  color: ${({ status }) => statusColor(status)};
 `;
 
 export const Size = styled.Text`

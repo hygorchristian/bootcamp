@@ -3,41 +3,52 @@ import React from 'react';
 import { StatusBar } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { CarrinhoActions } from '../../store/ducks/carrinho';
+
 import {
   Container, Background, Toolbar, Button, ToolbarTitle,
   ItemsList, ItemContainer, Image, Title, Price,
 } from './styles';
 
 import fundo from '../../assets/img/header-background.png';
-import bag from '../../assets/img/bag.png';
+import Status from '../../components/Status';
 
 class Size extends React.Component {
-  renderItem = ({ item }) => (
-    <ItemContainer>
-      <Image />
-      <Title>Grande</Title>
-      <Price>R$ 76,00</Price>
-    </ItemContainer>
-  )
+  renderItem = ({ item }) => {
+    const { navigation: { push }, setTamanho } = this.props;
+    const press = () => {
+      setTamanho(item);
+      push('Cart');
+    };
+
+    return (
+      <ItemContainer onPress={press}>
+        <Image />
+        <Title>{item.descricao}</Title>
+        <Price>R$ {item.pivot.valor}</Price>
+      </ItemContainer>
+    );
+  }
 
   render() {
+    const { navigation: { pop }, carrinho: { produto } } = this.props;
     return (
       <>
-        <Background
-          source={fundo}
-          resizeMode="stretch"
-        />
+        <Background source={fundo} resizeMode="stretch" />
         <Container>
           <StatusBar barStyle="light-content" backgroundColor="#0B2031" />
+          <Status />
           <Toolbar>
-            <Button>
+            <Button onPress={() => pop()}>
               <Icon name="arrow-back" color="#ffffff" size={24} />
             </Button>
             <ToolbarTitle>Carrinho</ToolbarTitle>
           </Toolbar>
           <ItemsList
             numColumns={2}
-            data={[1, 2, 3, 4, 5, 6, 7, 8, 9, 0]}
+            data={produto.tamanhos}
             keyExtractor={item => String(item.id)}
             renderItem={this.renderItem}
           />
@@ -47,4 +58,12 @@ class Size extends React.Component {
   }
 }
 
-export default Size;
+const mapStateToProps = ({ carrinho }) => ({
+  carrinho,
+});
+
+const mapDipatchToProps = dispatch => bindActionCreators({
+  ...CarrinhoActions,
+}, dispatch);
+
+export default connect(mapStateToProps, mapDipatchToProps)(Size);

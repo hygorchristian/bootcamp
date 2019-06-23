@@ -3,23 +3,42 @@ import React from 'react';
 import { StatusBar } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { CarrinhoActions } from '../../store/ducks/carrinho';
+import { ProdutosActions } from '../../store/ducks/produtos';
+
 import {
   Container, Background, Toolbar, Button, ToolbarTitle,
   ItemsList, ItemContainer, Image, Title,
 } from './styles';
 
 import fundo from '../../assets/img/header-background.png';
-import bag from '../../assets/img/bag.png';
+import Status from '../../components/Status';
 
 class Flavour extends React.Component {
-  renderItem = ({ item }) => (
-    <ItemContainer>
-      <Image />
-      <Title>Pizzas</Title>
-    </ItemContainer>
-  )
+  componentWillMount() {
+    const { loadProdutosRequest, carrinho } = this.props;
+    loadProdutosRequest(carrinho.categoria.id);
+  }
+
+  renderItem = ({ item }) => {
+    const { navigation: { push }, setProduto } = this.props;
+    const press = () => {
+      setProduto(item);
+      push('Size');
+    };
+
+    return (
+      <ItemContainer onPress={press}>
+        <Image source={{ uri: item.file.url }} />
+        <Title>{item.nome}</Title>
+      </ItemContainer>
+    );
+  }
 
   render() {
+    const { navigation: { pop }, produtos } = this.props;
     return (
       <>
         <Background
@@ -28,15 +47,16 @@ class Flavour extends React.Component {
         />
         <Container>
           <StatusBar barStyle="light-content" backgroundColor="#0B2031" />
+          <Status />
           <Toolbar>
-            <Button>
+            <Button onPress={() => pop()}>
               <Icon name="arrow-back" color="#ffffff" size={24} />
             </Button>
-            <ToolbarTitle>Selecione um tipo</ToolbarTitle>
+            <ToolbarTitle>Selecione um sabor</ToolbarTitle>
           </Toolbar>
           <ItemsList
             numColumns={2}
-            data={[1, 2, 3, 4, 5, 6, 7, 8, 9, 0]}
+            data={produtos.data}
             keyExtractor={item => String(item.id)}
             renderItem={this.renderItem}
           />
@@ -46,4 +66,14 @@ class Flavour extends React.Component {
   }
 }
 
-export default Flavour;
+const mapStateToProps = ({ produtos, carrinho }) => ({
+  carrinho,
+  produtos,
+});
+
+const mapDipatchToProps = dispatch => bindActionCreators({
+  ...ProdutosActions,
+  ...CarrinhoActions,
+}, dispatch);
+
+export default connect(mapStateToProps, mapDipatchToProps)(Flavour);

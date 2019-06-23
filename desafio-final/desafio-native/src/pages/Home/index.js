@@ -2,6 +2,10 @@ import React from 'react';
 
 import { StatusBar } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { CategoriasActions } from '../../store/ducks/categorias';
+import { CarrinhoActions } from '../../store/ducks/carrinho';
 
 import {
   Container, Background, Toolbar, Button, ToolbarTitle, Cart, Bag, Notification,
@@ -10,23 +14,40 @@ import {
 
 import fundo from '../../assets/img/header-background.png';
 import bag from '../../assets/img/bag.png';
+import Status from '../../components/Status';
 
 class Home extends React.Component {
-  renderItem = ({ item }) => (
-    <ItemContainer>
-      <Image />
-      <Info>
-        <Title>Pizzas</Title>
-        <Description>Mais de 50 sabores de pizza em até 4 tamanhos diferentes de fome</Description>
-        <Time>
-          <Icon name="access-alarm" size={12} color="#d8d8d8" />
-          <TimeText>30 min</TimeText>
-        </Time>
-      </Info>
-    </ItemContainer>
-  )
+  componentWillMount() {
+    const { loadCategoriasRequest } = this.props;
+    loadCategoriasRequest();
+  }
+
+  renderItem = ({ item }) => {
+    const { navigation: { push }, setCategoria } = this.props;
+
+    const press = () => {
+      setCategoria(item);
+      push('Flavour');
+    };
+
+    return (
+      <ItemContainer onPress={press}>
+        <Image source={{ uri: item.file.url }} />
+        <Info>
+          <Title>{item.nome}</Title>
+          <Description>{item.descricao}</Description>
+          <Time>
+            <Icon name="access-alarm" size={12} color="#d8d8d8" />
+            <TimeText>{item.tempo} mins</TimeText>
+          </Time>
+        </Info>
+      </ItemContainer>
+    );
+  }
 
   render() {
+    const { navigation: { push }, categorias } = this.props;
+
     return (
       <>
         <Background
@@ -35,18 +56,19 @@ class Home extends React.Component {
         />
         <Container>
           <StatusBar barStyle="light-content" backgroundColor="#0B2031" />
+          <Status />
           <Toolbar>
-            <Button>
+            <Button onPress={() => push('Orders')}>
               <Icon name="history" color="#ffffff" size={24} />
             </Button>
             <ToolbarTitle>Pizzaria Don Juan</ToolbarTitle>
-            <Cart>
+            <Cart onPress={() => push('Cart')}>
               <Notification notifications />
               <Bag source={bag} />
             </Cart>
           </Toolbar>
           <ItemsList
-            data={[1, 2, 3, 4, 5, 6, 7, 8, 9, 0]}
+            data={categorias.data}
             keyExtractor={item => String(item.id)}
             renderItem={this.renderItem}
           />
@@ -56,4 +78,13 @@ class Home extends React.Component {
   }
 }
 
-export default Home;
+const mapStateToProps = ({ categorias }) => ({
+  categorias,
+});
+
+const mapDipatchToProps = dispatch => bindActionCreators({
+  ...CategoriasActions,
+  ...CarrinhoActions,
+}, dispatch);
+
+export default connect(mapStateToProps, mapDipatchToProps)(Home);

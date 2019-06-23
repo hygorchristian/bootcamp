@@ -67,7 +67,9 @@ export const ItemsList = styled.FlatList.attrs({
   height: 100%;
 `;
 
-export const ItemContainer = styled.View`
+export const ItemContainer = styled.TouchableOpacity.attrs({
+  activeOpacity: 0.7,
+})`
   flex: 1;
   margin: 0 20px;
   padding: 13px 15px;
@@ -78,7 +80,7 @@ export const ItemContainer = styled.View`
   elevation: 8;
   shadow-color: #000;
   shadow-offset: 0 2px;
-  shadow-opacity: 0.8;
+  shadow-opacity: 0.3;
   shadow-radius: 2;
 `;
 
@@ -86,7 +88,7 @@ export const Image = styled.Image`
   width: 80px;
   height: 80px;
   border-radius: 5px;
-  background-color: red;
+  background-color: #c7cede;
 `;
 
 export const Info = styled.View`
