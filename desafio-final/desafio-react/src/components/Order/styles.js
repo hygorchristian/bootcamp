@@ -1,4 +1,19 @@
 import styled from 'styled-components';
+import React from 'react';
+
+const corStatus = (status) => {
+  switch (status) {
+    case 'Recebido':
+      return '#5283ff';
+    case 'Em andamento':
+      return '#149859';
+    case 'Pronto':
+      return '#822ab2';
+    case 'Cancelado':
+      return '#ff296c';
+    default: return '#0b2031';
+  }
+};
 
 export const Order = styled.div`
   background: #ffffff;
@@ -9,10 +24,29 @@ export const Order = styled.div`
   margin-bottom: 16px;
 `;
 
+export const Head = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+`;
+
 export const Title = styled.div`
   font-size:18px;
   color:#0b2031;
   letter-spacing:0;
+`;
+
+export const Status = styled.div`
+  font-size:18px;
+  letter-spacing:0;
+  color: ${({ status }) => corStatus(status)};
+  
+  select{
+    margin-left: 20px;
+    option{
+      
+    }
+  }
 `;
 
 export const Date = styled.div`

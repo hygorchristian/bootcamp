@@ -15,63 +15,6 @@ import logo from '../../assets/img/logo@3x.png';
 import bag from '../../assets/img/bag.png';
 import Order from '../../components/Order';
 
-const orders = [
-  {
-    id: 3,
-    usuario: 'Diego Schell Fernandes',
-    valor: 42.00,
-    observacoes: 'Por favor, tirar cebola',
-    itens: [
-      {
-        id: 2,
-        imageURL: 'http://pngimg.com/uploads/cocacola/cocacola_PNG22.png',
-        titulo: 'Coca cola',
-        tamanho: '300ml'
-      },
-      {
-        id: 3,
-        imageURL: 'http://pngimg.com/uploads/pizza/pizza_PNG44092.png',
-        titulo: 'Pizza de calabresa',
-        tamanho: 'Média',
-        quantidade: 4,
-      },
-      {
-        id: 4,
-        imageURL: 'https://www.multarte.com.br/wp-content/uploads/2019/03/pizza-png3.png',
-        titulo: 'Pizza 4 queijos',
-        tamanho: 'Grande'
-      }
-    ]
-  },
-  {
-    id: 4,
-    usuario: 'Diego Schell Fernandes',
-    valor: 42.00,
-    observacoes: 'Por favor, tirar cebola',
-    itens: [
-      {
-        id: 2,
-        imageURL: 'http://pngimg.com/uploads/cocacola/cocacola_PNG22.png',
-        titulo: 'Coca cola',
-        tamanho: '300ml'
-      },
-      {
-        id: 3,
-        imageURL: 'http://pngimg.com/uploads/pizza/pizza_PNG44092.png',
-        titulo: 'Pizza de calabresa',
-        tamanho: 'Média'
-      },
-      {
-        id: 4,
-        imageURL: 'https://www.multarte.com.br/wp-content/uploads/2019/03/pizza-png3.png',
-        titulo: 'Pizza 4 queijos',
-        tamanho: 'Grande'
-      }
-    ]
-  },
-
-];
-
 class Dashboard extends Component {
   static propTypes = {
     logout: PropTypes.func.isRequired,

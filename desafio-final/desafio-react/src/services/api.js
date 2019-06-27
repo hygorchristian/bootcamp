@@ -15,3 +15,9 @@ export const fetchOrders = token => api.get('/pedidos', {
     Authorization: `Bearer ${token}`
   }
 });
+
+export const putOrder = ({ id, status, token }) => api.put(`/pedidos/${id}`, { status }, {
+  headers: {
+    Authorization: `Bearer ${token}`
+  }
+});

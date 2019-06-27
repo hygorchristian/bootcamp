@@ -22,7 +22,7 @@ function PrivateRoute({ component: Component, isAuth, ...rest }) {
 }
 
 PrivateRoute.propTypes = {
-  component: PropTypes.element.isRequired,
+  component: PropTypes.object.isRequired,
   isAuth: PropTypes.bool.isRequired
 };
 
