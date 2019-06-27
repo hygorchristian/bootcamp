@@ -88,7 +88,6 @@ export const Image = styled.Image`
   width: 80px;
   height: 80px;
   border-radius: 5px;
-  background-color: #c7cede;
 `;
 
 export const Info = styled.View`

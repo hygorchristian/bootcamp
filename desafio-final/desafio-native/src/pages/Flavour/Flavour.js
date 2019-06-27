@@ -23,10 +23,9 @@ class Flavour extends React.Component {
   }
 
   renderItem = ({ item }) => {
-    const { navigation: { push }, setProduto } = this.props;
+    const { navigation: { push } } = this.props;
     const press = () => {
-      setProduto(item);
-      push('Size');
+      push('Size', { produto: item });
     };
 
     return (

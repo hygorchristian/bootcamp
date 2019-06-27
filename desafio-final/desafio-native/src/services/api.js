@@ -1,7 +1,11 @@
 import axios from 'axios';
+import { Platform } from 'react-native';
 
 const api = axios.create({
-  baseURL: 'http://localhost:3333',
+  baseURL: Platform.select({
+    ios: 'http://localhost:3333',
+    android: 'http://10.0.2.2:3333',
+  }),
 });
 
 const auth = token => (
@@ -11,6 +15,15 @@ const auth = token => (
     },
   }
 );
+
+export const getFile = file => {
+  const base = Platform.select({
+    ios: 'http://localhost:3333',
+    android: 'http://10.0.2.2:3333',
+  });
+
+  return `${base}/files/${file.id}`;
+};
 
 export const login = data => api.post('/sessions', data);
 export const createUser = data => api.post('/users', data);

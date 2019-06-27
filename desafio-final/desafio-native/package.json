@@ -4,10 +4,12 @@
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
+    "emulator": "/Users/hygordias/Library/Android/sdk/emulator/emulator -avd 'Nexus_5X_API_29_x86' -dns-server 192.168.15.1",
     "test": "jest"
   },
   "dependencies": {
     "axios": "^0.19.0",
+    "currency-formatter": "^1.5.4",
     "prop-types": "^15.7.2",
     "react": "16.8.3",
     "react-native": "0.59.9",

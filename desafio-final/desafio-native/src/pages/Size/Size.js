@@ -27,15 +27,18 @@ class Size extends React.Component {
 
     return (
       <ItemContainer onPress={press}>
-        <SizeImage size={item.nome} />
-        <Title>{item.descricao}</Title>
-        <Price>{currencyFormatter.format(item.pivot.valor, { code: 'BRL' })}</Price>
+        {/*<SizeImage size={item.nome} />*/}
+        {/*<Title>{item.descricao}</Title>*/}
+        {/*<Price>{currencyFormatter.format(item.pivot.valor, { code: 'BRL' })}</Price>*/}
       </ItemContainer>
     );
   }
 
   render() {
-    const { navigation: { pop }, carrinho: { produto } } = this.props;
+    const { navigation: { pop }, produto } = this.props;
+
+    console.tron.log("produto -> ", produto)
+
     return (
       <>
         <Background source={fundo} resizeMode="stretch" />
@@ -46,11 +49,11 @@ class Size extends React.Component {
             <Button onPress={() => pop()}>
               <Icon name="arrow-back" color="#ffffff" size={24} />
             </Button>
-            <ToolbarTitle>Carrinho</ToolbarTitle>
+            <ToolbarTitle>Selecione um tamanho</ToolbarTitle>
           </Toolbar>
           <ItemsList
             numColumns={2}
-            data={produto.tamanhos}
+            data={[1]}
             keyExtractor={item => String(item.id)}
             renderItem={this.renderItem}
           />
