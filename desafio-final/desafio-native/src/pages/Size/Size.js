@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import { StatusBar } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -10,7 +11,7 @@ import { CarrinhoActions } from '../../store/ducks/carrinho';
 
 import {
   Container, Background, Toolbar, Button, ToolbarTitle,
-  ItemsList, ItemContainer, Image, Title, Price,
+  ItemsList, ItemContainer, Title, Price,
 } from './styles';
 
 import fundo from '../../assets/img/header-background.png';
@@ -18,26 +19,31 @@ import Status from '../../components/Status';
 import SizeImage from '../../components/SizeImage';
 
 class Size extends React.Component {
+  static propTypes = {
+    navigation: PropTypes.object.isRequired,
+    addItem: PropTypes.func.isRequired,
+  }
+
   renderItem = ({ item }) => {
-    const { navigation: { push }, setTamanho } = this.props;
+    const { navigation: { push, state }, addItem } = this.props;
+    const { produto } = state.params;
     const press = () => {
-      setTamanho(item);
+      addItem(item, produto);
       push('Cart');
     };
 
     return (
       <ItemContainer onPress={press}>
-        {/*<SizeImage size={item.nome} />*/}
-        {/*<Title>{item.descricao}</Title>*/}
-        {/*<Price>{currencyFormatter.format(item.pivot.valor, { code: 'BRL' })}</Price>*/}
+        <SizeImage size={item.nome} />
+        <Title>{item.descricao}</Title>
+        <Price>{currencyFormatter.format(item.pivot.valor, { code: 'BRL' })}</Price>
       </ItemContainer>
     );
   }
 
   render() {
-    const { navigation: { pop }, produto } = this.props;
-
-    console.tron.log("produto -> ", produto)
+    const { navigation: { pop, state } } = this.props;
+    const { tamanhos } = state.params.produto;
 
     return (
       <>
@@ -53,7 +59,7 @@ class Size extends React.Component {
           </Toolbar>
           <ItemsList
             numColumns={2}
-            data={[1]}
+            data={tamanhos}
             keyExtractor={item => String(item.id)}
             renderItem={this.renderItem}
           />

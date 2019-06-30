@@ -16,7 +16,7 @@ const auth = token => (
   }
 );
 
-export const getFile = file => {
+export const getFile = (file) => {
   const base = Platform.select({
     ios: 'http://localhost:3333',
     android: 'http://10.0.2.2:3333',

@@ -15,6 +15,7 @@ import {
 
 import fundo from '../../assets/img/header-background.png';
 import Status from '../../components/Status';
+import { getFile } from '../../services/api';
 
 class Flavour extends React.Component {
   componentWillMount() {
@@ -30,7 +31,7 @@ class Flavour extends React.Component {
 
     return (
       <ItemContainer onPress={press}>
-        <Image source={{ uri: item.file.url }} />
+        <Image source={{ uri: getFile(item.file) }} />
         <Title>{item.nome}</Title>
       </ItemContainer>
     );

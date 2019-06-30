@@ -5,9 +5,8 @@ import Immutable from 'seamless-immutable';
 
 const { Types, Creators } = createActions({
   setCategoria: ['categoria'],
-  setProduto: ['produto'],
-  setTamanho: ['tamanho'],
-  removeProduto: ['id'],
+  addItem: ['tamanho', 'produto'],
+  removeItem: ['id'],
 });
 
 export const CarrinhoTypes = Types;
@@ -17,29 +16,42 @@ export const CarrinhoActions = Creators;
 
 export const INITIAL_STATE = Immutable({
   categoria: null,
-  produtos: [],
-  produto: null,
-  tamanho: null,
+  produtos: {},
+  valor: 0,
 });
 
 // Reducer Functions
 
 const setCategoria = (state, { categoria }) => state.merge({ categoria });
-const setProduto = (state, { produto }) => state.merge({
-  produtos: [...state.produtos, produto],
-  produto: {
-    id: produto.id,
-    nome: produto.nome,
-  },
-});
-const setTamanho = (state, { tamanho }) => state.merge({ tamanho });
-const removeProduto = (state, { id }) => state.merge({ produtos: state.produtos.filter(item => item.id !== id) });
+const addItem = (state, { tamanho, produto }) => {
+  const produtos = { ...state.produtos };
+  produtos[`${tamanho.pivot.id}`] = {
+    produto,
+    tamanho,
+  };
+
+  const valor = state.valor + tamanho.pivot.valor;
+
+  return state.merge({ produtos, valor });
+};
+const removeItem = (state, { id }) => {
+  const produtos = { ...state.produtos };
+  const novosProdutos = {};
+  let valor = 0;
+  Object.keys(produtos).forEach((key) => {
+    if (key.toString() !== id.toString()) {
+      novosProdutos[key] = produtos[key];
+      valor += produtos[key].tamanho.pivot.valor;
+    }
+  });
+
+  return state.merge({ produtos: novosProdutos, valor });
+};
 
 // Reducer
 
 export const CarrinhoReducer = createReducer(INITIAL_STATE, {
   [Types.SET_CATEGORIA]: setCategoria,
-  [Types.SET_PRODUTO]: setProduto,
-  [Types.SET_TAMANHO]: setTamanho,
-  [Types.REMOVE_PRODUTO]: removeProduto,
+  [Types.ADD_ITEM]: addItem,
+  [Types.REMOVE_ITEM]: removeItem,
 });

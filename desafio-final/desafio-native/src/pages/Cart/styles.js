@@ -77,7 +77,6 @@ export const ItemContainer = styled.TouchableOpacity.attrs({
 export const Image = styled.Image`
   width: 80px;
   height: 80px;
-  background-color: red;
 `;
 
 export const Info = styled.View`

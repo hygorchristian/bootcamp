@@ -1,8 +1,13 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import { StatusBar } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import lodash from 'lodash';
 
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import currencyFormatter from 'currency-formatter';
 import {
   Container, Background, Toolbar, Button, ToolbarTitle, ToolbarPrice,
   ItemsList, ItemContainer, Image, Title, ButtonDelete, Info, Size, Price,
@@ -11,24 +16,43 @@ import {
 
 import fundo from '../../assets/img/header-background.png';
 import Status from '../../components/Status';
+import { CarrinhoActions } from '../../store/ducks/carrinho';
+import { getFile } from '../../services/api';
 
 class Cart extends React.Component {
-  renderItem = ({ item }) => (
-    <ItemContainer>
-      <Image />
-      <Info>
-        <Title>Pizza Calabresa</Title>
-        <Size>Tamanho: Médio</Size>
-        <Price>R$ 29,90</Price>
-      </Info>
-      <ButtonDelete>
-        <Icon name="delete-forever" size={24} color="#E5293E" />
-      </ButtonDelete>
-    </ItemContainer>
-  )
+  static propTypes = {
+    navigation: PropTypes.object.isRequired,
+    removeItem: PropTypes.func.isRequired,
+    carrinho: PropTypes.object.isRequired,
+  }
+
+
+  renderItem = ({ item: { produto, tamanho } }) => {
+    const { removeItem } = this.props;
+    const remover = () => {
+      const { id } = tamanho.pivot;
+      removeItem(id);
+    };
+
+    return (
+      <ItemContainer>
+        <Image source={{ uri: getFile(produto.file) }} />
+        <Info>
+          <Title>{produto.nome}</Title>
+          <Size>Tamanho: {tamanho.descricao}</Size>
+          <Price>{currencyFormatter.format(tamanho.pivot.valor, { code: 'BRL' })}</Price>
+        </Info>
+        <ButtonDelete onPress={remover}>
+          <Icon name="delete-forever" size={24} color="#E5293E" />
+        </ButtonDelete>
+      </ItemContainer>
+    );
+  }
 
   render() {
-    const { navigation: { pop, push, replace } } = this.props;
+    const { navigation: { pop, push, replace }, carrinho } = this.props;
+    const produtos = lodash.values(carrinho.produtos);
+    console.tron.log(produtos);
 
     return (
       <>
@@ -44,11 +68,11 @@ class Cart extends React.Component {
               <Icon name="arrow-back" color="#ffffff" size={24} />
             </Button>
             <ToolbarTitle>Carrinho</ToolbarTitle>
-            <ToolbarPrice>R$ 107,00</ToolbarPrice>
+            <ToolbarPrice>{currencyFormatter.format(carrinho.valor, { code: 'BRL' })}</ToolbarPrice>
           </Toolbar>
           <ItemsList
-            data={[1, 2, 3]}
-            keyExtractor={item => String(item.id)}
+            data={produtos}
+            keyExtractor={item => String(item.tamanho.pivot.id)}
             renderItem={this.renderItem}
             ListFooterComponent={() => (
               <BottomMenu>
@@ -68,4 +92,13 @@ class Cart extends React.Component {
   }
 }
 
-export default Cart;
+
+const mapStateToProps = ({ carrinho }) => ({
+  carrinho,
+});
+
+const mapDipatchToProps = dispatch => bindActionCreators({
+  ...CarrinhoActions,
+}, dispatch);
+
+export default connect(mapStateToProps, mapDipatchToProps)(Cart);
