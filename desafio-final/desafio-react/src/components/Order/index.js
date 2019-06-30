@@ -73,6 +73,7 @@ class OrderItem extends Component {
               <option value="Em andamento">Em andamento</option>
               <option value="Pronto">Pronto</option>
               <option value="Cancelado">Cancelado</option>
+              <option value="Entregue">Entregue</option>
             </select>
           </Status>
         </Head>

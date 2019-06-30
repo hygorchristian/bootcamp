@@ -6,11 +6,13 @@ const corStatus = (status) => {
     case 'Recebido':
       return '#5283ff';
     case 'Em andamento':
-      return '#149859';
+      return '#ac7d24';
     case 'Pronto':
       return '#822ab2';
     case 'Cancelado':
       return '#ff296c';
+    case 'Entregue':
+      return '#168e20';
     default: return '#0b2031';
   }
 };
