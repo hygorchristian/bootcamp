@@ -27,6 +27,7 @@ export const getFile = (file) => {
 
 export const login = data => api.post('/sessions', data);
 export const createUser = data => api.post('/users', data);
+export const getPedidos = id => api.post(`/pedidos?user_id=${id}`, data);
 export const updateUser = (data, token) => api.put('/users', data, auth(token));
 export const getCategorias = () => api.get('/categorias');
 export const getProdutos = categoria => api.get('/produtos', {

@@ -5,6 +5,7 @@ import { ProdutosReducer as produtos } from './produtos';
 import { CarrinhoReducer as carrinho } from './carrinho';
 import { AuthReducer as auth } from './auth';
 import { UserReducer as user } from './user';
+import { PedidosReducer as pedidos } from './pedidos';
 
 export default combineReducers({
   categorias,
@@ -12,4 +13,5 @@ export default combineReducers({
   carrinho,
   auth,
   user,
+  pedidos,
 });

@@ -1,8 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import { StatusBar } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import {
   Container, Background, Toolbar, Button, ToolbarTitle, ItemContainer, Info,
   Title, Description, Price, OrderStatus, ItemsList,
@@ -10,8 +13,20 @@ import {
 import Status from '../../components/Status';
 
 import fundo from '../../assets/img/header-background.png';
+import { PedidosActions } from '../../store/ducks/pedidos';
 
 class Orders extends React.Component {
+  static propTypes = {
+    pedidos: PropTypes.object.isRequired,
+    navigation: PropTypes.object.isRequired,
+    loadPedidosRequest: PropTypes.func.isRequired,
+  }
+
+  componentWillMount() {
+    const { loadPedidosRequest } = this.props;
+    loadPedidosRequest();
+  }
+
   renderItem = ({ item }) => (
     <ItemContainer>
       <Info>
@@ -26,7 +41,8 @@ class Orders extends React.Component {
   )
 
   render() {
-    const { navigation: { pop } } = this.props;
+    const { navigation: { pop }, pedidos } = this.props;
+
     return (
       <>
         <Background
@@ -43,9 +59,16 @@ class Orders extends React.Component {
             <ToolbarTitle>Meus pedidos</ToolbarTitle>
           </Toolbar>
           <ItemsList
-            data={[1, 2, 3, 4, 5, 6, 7, 8, 9, 0]}
+            data={pedidos.data}
             keyExtractor={item => String(item.id)}
             renderItem={this.renderItem}
+            ListEmptyComponent={() => (
+              <ItemContainer>
+                <Info>
+                  <Title>Você não possui nenhum pedido no seu histórico. Faça um pedido agora mesmo :)</Title>
+                </Info>
+              </ItemContainer>
+            )}
           />
         </Container>
       </>
@@ -53,4 +76,12 @@ class Orders extends React.Component {
   }
 }
 
-export default Orders;
+const mapStateToProps = ({ pedidos }) => ({
+  pedidos,
+});
+
+const mapDipatchToProps = dispatch => bindActionCreators({
+  ...PedidosActions,
+}, dispatch);
+
+export default connect(mapStateToProps, mapDipatchToProps)(Orders);

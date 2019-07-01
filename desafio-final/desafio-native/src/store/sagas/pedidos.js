@@ -1,14 +1,15 @@
-import { call, put } from 'redux-saga/effects';
-import { getCategorias } from '../../services/api';
+import { call, put, select } from 'redux-saga/effects';
+import { getPedidos } from '../../services/api';
 
-import { CategoriasActions } from '../ducks/categorias';
+import { PedidosActions } from '../ducks/pedidos';
 
-export function* loadCategorias() {
+export function* loadPedidos() {
   try {
-    const response = yield call(getCategorias);
-
-    yield put(CategoriasActions.loadCategoriasSuccess(response.data));
+    const id = yield select(state => state.auth.user.id);
+    console.tron.log('user id => ', id);
+    const response = yield call(getPedidos, id);
+    yield put(PedidosActions.loadPedidosSuccess(response.data));
   } catch (e) {
-    yield put(CategoriasActions.loadCategoriasFailure('Erro ao buscar as categorias'));
+    yield put(PedidosActions.loadPedidosFailure('Erro ao buscar as pedidos'));
   }
 }
