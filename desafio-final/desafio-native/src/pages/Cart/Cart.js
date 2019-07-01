@@ -74,6 +74,13 @@ class Cart extends React.Component {
             data={produtos}
             keyExtractor={item => String(item.tamanho.pivot.id)}
             renderItem={this.renderItem}
+            ListEmptyComponent={() => (
+              <ItemContainer>
+                <Info>
+                  <Title>O seu carrinho está vazio</Title>
+                </Info>
+              </ItemContainer>
+            )}
             ListFooterComponent={() => (
               <BottomMenu>
                 <ButtonCart onPress={() => replace('Home')}>

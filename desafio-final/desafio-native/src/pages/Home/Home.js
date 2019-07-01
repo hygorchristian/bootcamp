@@ -1,9 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import { StatusBar } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import lodash from 'lodash';
 import { CategoriasActions } from '../../store/ducks/categorias';
 import { CarrinhoActions } from '../../store/ducks/carrinho';
 import { getFile } from '../../services/api';
@@ -18,6 +20,15 @@ import bag from '../../assets/img/bag.png';
 import Status from '../../components/Status';
 
 class Home extends React.Component {
+  static propTypes = {
+    categorias: PropTypes.array.isRequired,
+    loadCategoriasRequest: PropTypes.func.isRequired,
+    navigation: PropTypes.object.isRequired,
+    setCategoria: PropTypes.func.isRequired,
+    carrinho: PropTypes.object.isRequired,
+  }
+
+
   componentWillMount() {
     const { loadCategoriasRequest } = this.props;
     loadCategoriasRequest();
@@ -47,7 +58,9 @@ class Home extends React.Component {
   }
 
   render() {
-    const { navigation: { push }, categorias } = this.props;
+    const { navigation: { push }, categorias, carrinho } = this.props;
+    const produtos = lodash.values(carrinho.produtos);
+    const notification = produtos.length > 0;
 
     return (
       <>
@@ -64,7 +77,7 @@ class Home extends React.Component {
             </Button>
             <ToolbarTitle>Pizzaria Don Juan</ToolbarTitle>
             <Cart onPress={() => push('Cart')}>
-              <Notification notifications />
+              <Notification notification={notification} />
               <Bag source={bag} />
             </Cart>
           </Toolbar>
@@ -79,8 +92,9 @@ class Home extends React.Component {
   }
 }
 
-const mapStateToProps = ({ categorias }) => ({
+const mapStateToProps = ({ categorias, carrinho }) => ({
   categorias,
+  carrinho,
 });
 
 const mapDipatchToProps = dispatch => bindActionCreators({

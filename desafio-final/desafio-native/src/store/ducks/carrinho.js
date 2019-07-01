@@ -22,7 +22,7 @@ export const INITIAL_STATE = Immutable({
 
 // Reducer Functions
 
-const setCategoria = (state, { categoria }) => state.merge({ categoria });
+const setCategoria = (state, { categoria }) => ({ ...state, categoria });
 const addItem = (state, { tamanho, produto }) => {
   const produtos = { ...state.produtos };
   produtos[`${tamanho.pivot.id}`] = {
@@ -32,7 +32,7 @@ const addItem = (state, { tamanho, produto }) => {
 
   const valor = state.valor + tamanho.pivot.valor;
 
-  return state.merge({ produtos, valor });
+  return { ...state, produtos, valor };
 };
 const removeItem = (state, { id }) => {
   const produtos = { ...state.produtos };
@@ -45,7 +45,7 @@ const removeItem = (state, { id }) => {
     }
   });
 
-  return state.merge({ produtos: novosProdutos, valor });
+  return { ...state, produtos: novosProdutos, valor };
 };
 
 // Reducer

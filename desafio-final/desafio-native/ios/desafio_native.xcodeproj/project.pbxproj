@@ -58,6 +58,7 @@
 		454D1405EFCE49A7A80E9161 /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F44FA7F4DA8442C1BB764180 /* Zocial.ttf */; };
 		71E554038AE646A6B8019FE1 /* libRNVectorIcons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 03B7343481514ACDAD39797B /* libRNVectorIcons.a */; };
 		272A30BE02C64985A3357024 /* libRNVectorIcons-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE3D77F367E54A3DB88A4AB4 /* libRNVectorIcons-tvOS.a */; };
+		5694410081344F1DBA11749A /* libRNSnackbar.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D57892734F8422C83F6B632 /* libRNSnackbar.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -386,6 +387,8 @@
 		178D62F9BED549E8AEB7C784 /* RNVectorIcons.xcodeproj */ = {isa = PBXFileReference; name = "RNVectorIcons.xcodeproj"; path = "../node_modules/react-native-vector-icons/RNVectorIcons.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
 		03B7343481514ACDAD39797B /* libRNVectorIcons.a */ = {isa = PBXFileReference; name = "libRNVectorIcons.a"; path = "libRNVectorIcons.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 		CE3D77F367E54A3DB88A4AB4 /* libRNVectorIcons-tvOS.a */ = {isa = PBXFileReference; name = "libRNVectorIcons-tvOS.a"; path = "libRNVectorIcons-tvOS.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		A9A12A8164564954AF0A5C7F /* RNSnackbar.xcodeproj */ = {isa = PBXFileReference; name = "RNSnackbar.xcodeproj"; path = "../node_modules/react-native-snackbar/ios/RNSnackbar.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		8D57892734F8422C83F6B632 /* libRNSnackbar.a */ = {isa = PBXFileReference; name = "libRNSnackbar.a"; path = "libRNSnackbar.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -416,6 +419,7 @@
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
 				091C01B4B859463DBC7B9415 /* libRNGestureHandler.a in Frameworks */,
 				71E554038AE646A6B8019FE1 /* libRNVectorIcons.a in Frameworks */,
+				5694410081344F1DBA11749A /* libRNSnackbar.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -609,6 +613,7 @@
 				139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */,
 				D372BE4DF43E4CC99E25A6A4 /* RNGestureHandler.xcodeproj */,
 				178D62F9BED549E8AEB7C784 /* RNVectorIcons.xcodeproj */,
+				A9A12A8164564954AF0A5C7F /* RNSnackbar.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -1279,11 +1284,13 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)\..\node_modules\react-native-gesture-handler\ios/**",
 					"$(SRCROOT)\..\node_modules\react-native-vector-icons\RNVectorIconsManager",
+					"$(SRCROOT)/../node_modules/react-native-snackbar/ios",
 				);
 			};
 			name = Debug;
@@ -1309,11 +1316,13 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)\..\node_modules\react-native-gesture-handler\ios/**",
 					"$(SRCROOT)\..\node_modules\react-native-vector-icons\RNVectorIconsManager",
+					"$(SRCROOT)/../node_modules/react-native-snackbar/ios",
 				);
 			};
 			name = Release;
@@ -1338,6 +1347,7 @@
 					"$(inherited)",
 					"$(SRCROOT)\..\node_modules\react-native-gesture-handler\ios/**",
 					"$(SRCROOT)\..\node_modules\react-native-vector-icons\RNVectorIconsManager",
+					"$(SRCROOT)/../node_modules/react-native-snackbar/ios",
 				);
 			};
 			name = Debug;
@@ -1361,6 +1371,7 @@
 					"$(inherited)",
 					"$(SRCROOT)\..\node_modules\react-native-gesture-handler\ios/**",
 					"$(SRCROOT)\..\node_modules\react-native-vector-icons\RNVectorIconsManager",
+					"$(SRCROOT)/../node_modules/react-native-snackbar/ios",
 				);
 			};
 			name = Release;
@@ -1394,11 +1405,13 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)\..\node_modules\react-native-gesture-handler\ios/**",
 					"$(SRCROOT)\..\node_modules\react-native-vector-icons\RNVectorIconsManager",
+					"$(SRCROOT)/../node_modules/react-native-snackbar/ios",
 				);
 			};
 			name = Debug;
@@ -1432,11 +1445,13 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)\..\node_modules\react-native-gesture-handler\ios/**",
 					"$(SRCROOT)\..\node_modules\react-native-vector-icons\RNVectorIconsManager",
+					"$(SRCROOT)/../node_modules/react-native-snackbar/ios",
 				);
 			};
 			name = Release;
@@ -1469,11 +1484,13 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)\..\node_modules\react-native-gesture-handler\ios/**",
 					"$(SRCROOT)\..\node_modules\react-native-vector-icons\RNVectorIconsManager",
+					"$(SRCROOT)/../node_modules/react-native-snackbar/ios",
 				);
 			};
 			name = Debug;
@@ -1506,11 +1523,13 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)\..\node_modules\react-native-gesture-handler\ios/**",
 					"$(SRCROOT)\..\node_modules\react-native-vector-icons\RNVectorIconsManager",
+					"$(SRCROOT)/../node_modules/react-native-snackbar/ios",
 				);
 			};
 			name = Release;

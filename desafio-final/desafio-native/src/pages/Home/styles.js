@@ -51,7 +51,7 @@ export const Notification = styled.View`
   height: 12px;
   width: 12px;
   border-radius: 6px;
-  background-color: #ffc107;
+  background-color: ${({ notification }) => (notification ? '#ffc107' : 'transparent')};
 `;
 
 export const Bag = styled.Image`

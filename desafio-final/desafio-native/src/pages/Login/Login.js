@@ -1,33 +1,108 @@
-import React from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import { StatusBar } from 'react-native';
+import Snackbar from 'react-native-snackbar';
 
+
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import {
   Background, Logo, Input, Button, ButtonText,
 } from './styles';
 
 import fundo from '../../assets/img/fundo.png';
 import logo from '../../assets/img/logo.png';
+import { AuthActions } from '../../store/ducks/auth';
+import { showError } from '../../utils';
 
-const Login = props => (
-  <Background
-    source={fundo}
-    resizeMode="cover"
-  >
-    <StatusBar barStyle="light-content" backgroundColor="#E5293E" />
-    <Logo
-      source={logo}
-      resizeMode="contain"
-    />
-    <Input placeholder="Seu e-mail" />
-    <Input placeholder="Senha secreta" secureTextEntry />
-    <Button onPress={() => props.navigation.replace('Home')}>
-      <ButtonText>Entrar</ButtonText>
-    </Button>
-    <Button transparent onPress={() => props.navigation.navigate('SignUp')}>
-      <ButtonText>Criar conta gratuita</ButtonText>
-    </Button>
-  </Background>
-);
+class Login extends Component {
+  static propTypes = {
+    auth: PropTypes.object.isRequired,
+    navigation: PropTypes.object.isRequired,
+    loadAuthRequest: PropTypes.func.isRequired,
+  }
 
-export default Login;
+  state = {
+    email: 'hygor@mail.com',
+    password: '123456',
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { error } = nextProps.auth;
+    if (error) {
+      showError(error);
+    }
+  }
+
+  componentWillUpdate(nextProps) {
+    const { auth } = nextProps;
+    const { navigation: { replace } } = this.props;
+
+    if (auth.isAuth) {
+      replace('Home');
+    }
+  }
+
+  login = () => {
+    const { email, password } = this.state;
+    const { loadAuthRequest } = this.props;
+    if (email.length === 0) {
+      showError('O email deve ser preenchido');
+      return;
+    }
+    if (password.length === 0) {
+      showError('A senha deve ser preenchida');
+      return;
+    }
+
+    loadAuthRequest(email, password);
+  };
+
+  render() {
+    const { navigation: { navigate } } = this.props;
+    const { email, password } = this.state;
+
+    return (
+      <Background
+        source={fundo}
+        resizeMode="cover"
+      >
+        <StatusBar barStyle="light-content" backgroundColor="#E5293E" />
+        <Logo
+          source={logo}
+          resizeMode="contain"
+        />
+        <Input
+          placeholder="Seu e-mail"
+          autoCapitalize="none"
+          value={email}
+          onChangeText={state => this.setState({ email: state.text })}
+        />
+        <Input
+          placeholder="Senha secreta"
+          autoCapitalize="none"
+          secureTextEntry
+          value={password}
+          onChangeText={(state) => { this.setState({ password: state }); }}
+        />
+        <Button onPress={this.login}>
+          <ButtonText>Entrar</ButtonText>
+        </Button>
+        <Button transparent onPress={() => navigate('SignUp')}>
+          <ButtonText>Criar conta gratuita</ButtonText>
+        </Button>
+      </Background>
+    );
+  }
+}
+
+const mapStateToProps = ({ auth }) => ({
+  auth,
+});
+
+const mapDipatchToProps = dispatch => bindActionCreators({
+  ...AuthActions,
+}, dispatch);
+
+export default connect(mapStateToProps, mapDipatchToProps)(Login);

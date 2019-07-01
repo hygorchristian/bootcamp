@@ -1,9 +1,12 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import { StatusBar } from 'react-native';
 import { StackActions, NavigationActions } from 'react-navigation';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import {
   Container, Background, Toolbar, Button, ToolbarTitle, ToolbarPrice,
   BottomMenu, ButtonContainer, ButtonText, Form, TextArea,
@@ -12,8 +15,13 @@ import {
 import Status from '../../components/Status';
 
 import fundo from '../../assets/img/header-background.png';
+import { CarrinhoActions } from '../../store/ducks/carrinho';
 
 class Checkout extends React.Component {
+  static propTypes = {
+    navigation: PropTypes.object.isRequired,
+  }
+
   render() {
     const { navigation: { pop, dispatch } } = this.props;
     const resetAction = StackActions.reset({
@@ -23,6 +31,7 @@ class Checkout extends React.Component {
         NavigationActions.navigate({ routeName: 'Orders' }),
       ],
     });
+
     return (
       <>
         <Background
@@ -64,4 +73,13 @@ class Checkout extends React.Component {
   }
 }
 
-export default Checkout;
+
+const mapStateToProps = ({ carrinho }) => ({
+  carrinho,
+});
+
+const mapDipatchToProps = dispatch => bindActionCreators({
+  ...CarrinhoActions,
+}, dispatch);
+
+export default connect(mapStateToProps, mapDipatchToProps)(Checkout);

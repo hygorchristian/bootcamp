@@ -22,9 +22,11 @@ export const INITIAL_STATE = Immutable({
 
 // Reducer Functions
 
-const loadRequest = state => state.merge({ loading: true, error: null });
-const loadSuccess = (state, { data }) => state.merge({ data, loading: false, error: null });
-const loadFailure = (state, { error }) => state.merge({ error, loading: false });
+const loadRequest = state => ({ ...state, loading: true, error: null });
+const loadSuccess = (state, { data }) => ({
+  ...state, data, loadin, error: null,
+});
+const loadFailure = (state, { error }) => ({ ...state, error, loading: false });
 
 // Reducer
 
