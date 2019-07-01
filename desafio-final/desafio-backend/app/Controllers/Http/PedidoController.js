@@ -10,10 +10,21 @@ const Database = use('Database')
 const Ws = use('Ws')
 
 class PedidoController {
-  async index () {
-    const pedidos = await Database
-      .select('*')
-      .from('pedidos')
+  async index ({ request }) {
+    const { user_id } = request.get()
+
+    let pedidos = null;
+
+    if(user_id){
+      pedidos = await Database
+        .select('*')
+        .from('pedidos')
+        .where('user_id', user_id)
+    }else{
+      pedidos = await Database
+        .select('*')
+        .from('pedidos')
+    }
 
     for (let i = 0; i < pedidos.length; i++) {
       const pedido = pedidos[i]

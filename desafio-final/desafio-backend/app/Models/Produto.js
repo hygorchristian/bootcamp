@@ -11,7 +11,7 @@ class Produto extends Model {
   tamanhos () {
     return this.belongsToMany('App/Models/Tamanho')
       .pivotModel('App/Models/ProdutoTamanho')
-      .withPivot(['valor', 'quantidade'])
+      .withPivot(['valor', 'quantidade', 'id'])
   }
 
   file () {
