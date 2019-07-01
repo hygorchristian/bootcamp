@@ -4,18 +4,18 @@ import Immutable from 'seamless-immutable';
 // Action Types & Creators
 
 const { Types, Creators } = createActions({
-  loadProdutosRequest: ['id'],
-  loadProdutosSuccess: ['data'],
-  loadProdutosFailure: ['error'],
+  loadUserRequest: ['nome', 'email', 'password'],
+  loadUserSuccess: ['data'],
+  loadUserFailure: ['error'],
 });
 
-export const ProdutosTypes = Types;
-export const ProdutosActions = Creators;
+export const UserTypes = Types;
+export const UserActions = Creators;
 
 // Initial State
 
 export const INITIAL_STATE = Immutable({
-  data: [],
+  user: null,
   loading: false,
   error: null,
 });
@@ -24,14 +24,14 @@ export const INITIAL_STATE = Immutable({
 
 const loadRequest = state => ({ ...state, loading: true, error: null });
 const loadSuccess = (state, { data }) => ({
-  ...state, data, loading: false, error: null,
+  ...state, user: data, loading: false, error: null,
 });
 const loadFailure = (state, { error }) => ({ ...state, error, loading: false });
 
 // Reducer
 
-export const ProdutosReducer = createReducer(INITIAL_STATE, {
-  [Types.LOAD_PRODUTOS_REQUEST]: loadRequest,
-  [Types.LOAD_PRODUTOS_SUCCESS]: loadSuccess,
-  [Types.LOAD_PRODUTOS_FAILURE]: loadFailure,
+export const UserReducer = createReducer(INITIAL_STATE, {
+  [Types.LOAD_USER_REQUEST]: loadRequest,
+  [Types.LOAD_USER_SUCCESS]: loadSuccess,
+  [Types.LOAD_USER_FAILURE]: loadFailure,
 });

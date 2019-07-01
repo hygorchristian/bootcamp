@@ -77,7 +77,7 @@ class Login extends Component {
           placeholder="Seu e-mail"
           autoCapitalize="none"
           value={email}
-          onChangeText={state => this.setState({ email: state.text })}
+          onChangeText={state => this.setState({ email: state })}
         />
         <Input
           placeholder="Senha secreta"

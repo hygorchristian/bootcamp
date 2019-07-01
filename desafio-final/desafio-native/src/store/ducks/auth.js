@@ -25,8 +25,8 @@ export const INITIAL_STATE = Immutable({
 // Reducer Functions
 
 const loadRequest = state => ({ ...state, loading: true, error: null });
-const loadSuccess = (state, { user }) => ({
-  ...state, isAuth: true, user, loading: false, error: null,
+const loadSuccess = (state, { data }) => ({
+  ...state, isAuth: true, user: data, loading: false, error: null,
 });
 const loadFailure = (state, { error }) => ({ ...state, error, loading: false });
 const logout = state => ({
