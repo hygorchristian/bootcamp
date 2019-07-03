@@ -1,4 +1,4 @@
-package com.desafio_native;
+package br.com.desafio_native;
 
 import com.facebook.react.ReactActivity;
 

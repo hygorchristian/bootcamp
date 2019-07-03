@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import Currency from 'react-currency-formatter';
 import Moment from 'react-moment';
+import 'moment/locale/pt-br';
 import Ws from '@adonisjs/websocket-client';
 
 import { bindActionCreators } from 'redux';
@@ -23,6 +24,7 @@ import {
 } from './styles';
 import { AuthActions } from '../../store/ducks/auth';
 import { OrdersActions } from '../../store/ducks/orders';
+import {getFile} from "../../services/api";
 
 class OrderItem extends Component {
   static propTypes = {
@@ -40,7 +42,7 @@ class OrderItem extends Component {
   }
 
   registerSocket = async (id) => {
-    const ws = Ws('ws://localhost:3333/').connect();
+    const ws = Ws('ws://gonode-desafio-node.herokuapp.com/').connect();
 
     ws.subscribe(`pedido:${id}`);
     ws.getSubscription(`pedido:${id}`).on('status', (status) => {
@@ -90,7 +92,7 @@ class OrderItem extends Component {
         <ItemList>
           {order.itens.map(item => (
             <Item key={item.id}>
-              <ItemImage src={item.image.url} alt={item.titulo} />
+              <ItemImage src={getFile(item.image)} alt={item.titulo} />
               <ItemInfo>
                 <ItemTitle>{item.titulo}</ItemTitle>
                 <ItemSize>

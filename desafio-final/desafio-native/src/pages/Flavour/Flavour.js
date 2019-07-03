@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import { StatusBar } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -16,8 +17,17 @@ import {
 import fundo from '../../assets/img/header-background.png';
 import Status from '../../components/Status';
 import { getFile } from '../../services/api';
+import { DarkLoader, LoaderContainer } from '../Splash/styles';
 
 class Flavour extends React.Component {
+  static propTypes = {
+    navigation: PropTypes.object.isRequired,
+    produtos: PropTypes.object.isRequired,
+    loadProdutosRequest: PropTypes.func.isRequired,
+    carrinho: PropTypes.object.isRequired,
+  }
+
+
   componentWillMount() {
     const { loadProdutosRequest, carrinho } = this.props;
     loadProdutosRequest(carrinho.categoria.id);
@@ -39,6 +49,7 @@ class Flavour extends React.Component {
 
   render() {
     const { navigation: { pop }, produtos } = this.props;
+
     return (
       <>
         <Background
@@ -54,12 +65,20 @@ class Flavour extends React.Component {
             </Button>
             <ToolbarTitle>Selecione um sabor</ToolbarTitle>
           </Toolbar>
-          <ItemsList
-            numColumns={2}
-            data={produtos.data}
-            keyExtractor={item => String(item.id)}
-            renderItem={this.renderItem}
-          />
+          {
+            produtos.loading ? (
+              <LoaderContainer>
+                <DarkLoader />
+              </LoaderContainer>
+            ) : (
+              <ItemsList
+                numColumns={2}
+                data={produtos.data}
+                keyExtractor={item => String(item.id)}
+                renderItem={this.renderItem}
+              />
+            )
+          }
         </Container>
       </>
     );

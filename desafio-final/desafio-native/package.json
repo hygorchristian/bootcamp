@@ -5,12 +5,16 @@
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "emulator": "/Users/hygordias/Library/Android/sdk/emulator/emulator -avd 'Nexus_5X_API_29_x86' -dns-server 192.168.15.1",
+    "socket" : "s1=\"var wsProtocol \\= window\\.location\\.protocol \\=\\=\\= 'https:' \\? 'wss' : 'ws';\" && \ns2=\"var wsProtocol \\= window\\.location \\&\\& window\\.location\\.protocol \\=\\=\\= 'https:' \\? 'wss' : 'ws';\" && \nsed -i -e \"s/$s1/$s2/g\" node_modules/@adonisjs/websocket-client/dist/Ws.browser.js",
+    "release-android": "react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res && cd android && ./gradlew assembleRelease && cd ..",
     "test": "jest"
   },
   "dependencies": {
+    "@adonisjs/websocket-client": "^1.0.9",
     "axios": "^0.19.0",
     "currency-formatter": "^1.5.4",
     "lodash": "^4.17.11",
+    "moment": "^2.24.0",
     "prop-types": "^15.7.2",
     "react": "16.8.3",
     "react-native": "0.59.9",

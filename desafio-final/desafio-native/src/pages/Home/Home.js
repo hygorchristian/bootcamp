@@ -21,7 +21,7 @@ import Status from '../../components/Status';
 
 class Home extends React.Component {
   static propTypes = {
-    categorias: PropTypes.array.isRequired,
+    categorias: PropTypes.object.isRequired,
     loadCategoriasRequest: PropTypes.func.isRequired,
     navigation: PropTypes.object.isRequired,
     setCategoria: PropTypes.func.isRequired,

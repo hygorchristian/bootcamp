@@ -9,7 +9,6 @@ export function* loadAuth({ email, password }) {
 
     yield put(AuthActions.loadAuthSuccess(response.data));
   } catch (e) {
-    console.tron.log(e);
     yield put(AuthActions.loadAuthFailure('Email ou senha incorretos, tente novamente.'));
   }
 }

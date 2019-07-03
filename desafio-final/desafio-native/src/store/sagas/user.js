@@ -8,7 +8,6 @@ export function* signUp({ nome, email, password }) {
     const response = yield call(createUser, { username: nome, email, password });
     yield put(UserActions.loadUserSuccess(response.data));
   } catch (e) {
-    console.tron.log(e);
     yield put(UserActions.loadUserFailure('Erro ao criar usuário, por favor, tente novamente.'));
   }
 }

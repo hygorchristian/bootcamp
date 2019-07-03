@@ -52,7 +52,6 @@ class Cart extends React.Component {
   render() {
     const { navigation: { pop, push, replace }, carrinho } = this.props;
     const produtos = lodash.values(carrinho.produtos);
-    console.tron.log(produtos);
 
     return (
       <>

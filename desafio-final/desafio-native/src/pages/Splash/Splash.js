@@ -5,7 +5,7 @@ import { StatusBar } from 'react-native';
 
 import { connect } from 'react-redux';
 import {
-  Background, Logo, WelcomeMessage, Loader,
+  Background, Logo, WelcomeMessage, Loader, LoaderContainer,
 } from './styles';
 
 import fundo from '../../assets/img/fundo.png';
@@ -40,7 +40,9 @@ class Splash extends Component {
           resizeMode="contain"
         />
         <WelcomeMessage>Seja bem vindo :)</WelcomeMessage>
-        <Loader />
+        <LoaderContainer>
+          <Loader />
+        </LoaderContainer>
       </Background>
     );
   }

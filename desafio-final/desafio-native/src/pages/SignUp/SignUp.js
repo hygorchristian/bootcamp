@@ -13,6 +13,7 @@ import fundo from '../../assets/img/fundo.png';
 import logo from '../../assets/img/logo.png';
 import { UserActions } from '../../store/ducks/user';
 import { showError, showSuccess } from '../../utils';
+import {Loader, LoaderContainer} from "../Splash/styles";
 
 class SignUp extends Component {
   static propTypes = {
@@ -22,9 +23,9 @@ class SignUp extends Component {
   }
 
   state = {
-    nome: 'Lucian Barros',
-    email: 'lu@mail.com',
-    password: '123456',
+    nome: '',
+    email: '',
+    password: '',
   }
 
   componentWillReceiveProps(nextProps) {
@@ -62,7 +63,7 @@ class SignUp extends Component {
 
   render() {
     const { nome, email, password } = this.state;
-    const { navigation: { pop } } = this.props;
+    const { navigation: { pop }, user } = this.props;
 
     return (
       <Background
@@ -93,12 +94,23 @@ class SignUp extends Component {
           value={password}
           onChangeText={(state) => { this.setState({ password: state }); }}
         />
-        <Button onPress={this.signUp}>
-          <ButtonText>Criar conta</ButtonText>
-        </Button>
-        <Button transparent onPress={() => pop()}>
-          <ButtonText>Já tenho login</ButtonText>
-        </Button>
+        {
+          user.loading ? (
+            <LoaderContainer>
+              <Loader />
+            </LoaderContainer>
+          ) : (
+            <>
+              <Button onPress={this.signUp}>
+                <ButtonText>Criar conta</ButtonText>
+              </Button>
+              <Button transparent onPress={() => pop()}>
+                <ButtonText>Já tenho login</ButtonText>
+              </Button>
+            </>
+          )
+        }
+
       </Background>
     );
   }

@@ -19,8 +19,21 @@ export const WelcomeMessage = styled.Text`
   font-size: 24px;
 `;
 
+export const LoaderContainer = styled.View`
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+`;
+
 export const Loader = styled.ActivityIndicator.attrs({
   size: 'large', color: '#ffffff',
+})`
+  margin-top: 60px;
+`;
+
+
+export const DarkLoader = styled.ActivityIndicator.attrs({
+  size: 'large', color: '#303030',
 })`
   margin-top: 60px;
 `;

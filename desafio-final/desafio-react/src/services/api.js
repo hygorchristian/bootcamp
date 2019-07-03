@@ -1,12 +1,14 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://127.0.0.1:3333',
+  baseURL: 'https://gonode-desafio-node.herokuapp.com',
   headers: {
     'Content-Type': 'application/json; charset=utf-8',
     Accept: 'application/json'
   }
 });
+
+export const getFile = (file) => `https://gonode-desafio-node.herokuapp.com/files/${file.id}`;
 
 export const performLogin = data => api.post('/sessions', data);
 

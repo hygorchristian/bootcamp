@@ -57,7 +57,7 @@ class PedidoController {
   async store ({ request, auth }) {
     const { itens, ...data } = request.only(['valor_total', 'itens', 'observacoes'])
 
-    const pedido = await Pedido.create({ ...data, status: 'criado', user_id: auth.user.id })
+    const pedido = await Pedido.create({ ...data, status: 'Recebido', user_id: auth.user.id })
     await pedido.itens().sync(itens)
 
     const socket = Ws.getChannel('pedido:*').topic(`pedido:${pedido.id}`)

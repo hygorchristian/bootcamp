@@ -1,14 +1,18 @@
 import styled, { css } from 'styled-components';
 
-const statusColor = (status) => {
+const corStatus = (status) => {
   switch (status) {
-    case 'PRONTO':
-      return '#ff0000';
-    case 'EM ANDAMENTO':
-      return '#00FF00';
-    case 'AGUARDANDO':
-      return '#0000FF';
-    default: return '#000000';
+    case 'Recebido':
+      return '#5283ff';
+    case 'Em andamento':
+      return '#ac7d24';
+    case 'Pronto':
+      return '#822ab2';
+    case 'Cancelado':
+      return '#ff296c';
+    case 'Entregue':
+      return '#168e20';
+    default: return '#0b2031';
   }
 };
 
@@ -30,8 +34,14 @@ export const Toolbar = styled.View`
   flex-direction: row;
   height: 56px;
   align-items: center;
+  justify-content: space-between;
   margin: 0 20px;
 `;
+
+export const ToolbarController = styled.View`
+  flex-direction: row;
+`;
+
 
 export const ToolbarTitle = styled.Text`
   color: #ffffff;
@@ -99,7 +109,7 @@ export const Description = styled.Text`
 
 export const OrderStatus = styled.Text`
   font-size:16px;
-  color: ${({ status }) => statusColor(status)};
+  color: ${({ children }) => corStatus(children)};
 `;
 
 export const Size = styled.Text`

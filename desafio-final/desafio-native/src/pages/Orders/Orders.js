@@ -6,20 +6,32 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { NavigationActions, StackActions } from 'react-navigation';
 import {
   Container, Background, Toolbar, Button, ToolbarTitle, ItemContainer, Info,
-  Title, Description, Price, OrderStatus, ItemsList,
+  Title, ItemsList, ToolbarController,
 } from './styles';
 import Status from '../../components/Status';
 
 import fundo from '../../assets/img/header-background.png';
 import { PedidosActions } from '../../store/ducks/pedidos';
+import { showError } from '../../utils';
+import Order from './Order';
+import { AuthActions } from '../../store/ducks/auth';
+
+const resetAction = StackActions.reset({
+  index: 0,
+  actions: [
+    NavigationActions.navigate({ routeName: 'Login' }),
+  ],
+});
 
 class Orders extends React.Component {
   static propTypes = {
     pedidos: PropTypes.object.isRequired,
     navigation: PropTypes.object.isRequired,
     loadPedidosRequest: PropTypes.func.isRequired,
+    logout: PropTypes.func.isRequired,
   }
 
   componentWillMount() {
@@ -27,17 +39,21 @@ class Orders extends React.Component {
     loadPedidosRequest();
   }
 
+  componentWillReceiveProps(nextProps) {
+    const { error } = nextProps.pedidos;
+    if (error) {
+      showError(error);
+    }
+  }
+
+  logout = () => {
+    const { logout, navigation: { dispatch } } = this.props;
+    logout();
+    dispatch(resetAction);
+  };
+
   renderItem = ({ item }) => (
-    <ItemContainer>
-      <Info>
-        <Title>Pedido #3</Title>
-        <Description>Ontem às 17h</Description>
-        <Price>R$ 42,00</Price>
-      </Info>
-      <OrderStatus>
-        Pronto
-      </OrderStatus>
-    </ItemContainer>
+    <Order item={item} />
   )
 
   render() {
@@ -53,10 +69,15 @@ class Orders extends React.Component {
           <StatusBar barStyle="light-content" backgroundColor="#0B2031" />
           <Status />
           <Toolbar>
-            <Button onPress={() => pop()}>
-              <Icon name="arrow-back" color="#ffffff" size={24} />
+            <ToolbarController>
+              <Button onPress={() => pop()}>
+                <Icon name="arrow-back" color="#ffffff" size={24} />
+              </Button>
+              <ToolbarTitle>Meus pedidos</ToolbarTitle>
+            </ToolbarController>
+            <Button onPress={this.logout}>
+              <Icon name="exit-to-app" color="#ffffff" size={24} />
             </Button>
-            <ToolbarTitle>Meus pedidos</ToolbarTitle>
           </Toolbar>
           <ItemsList
             data={pedidos.data}
@@ -82,6 +103,7 @@ const mapStateToProps = ({ pedidos }) => ({
 
 const mapDipatchToProps = dispatch => bindActionCreators({
   ...PedidosActions,
+  ...AuthActions,
 }, dispatch);
 
 export default connect(mapStateToProps, mapDipatchToProps)(Orders);

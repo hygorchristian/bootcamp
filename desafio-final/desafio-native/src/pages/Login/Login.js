@@ -15,6 +15,7 @@ import fundo from '../../assets/img/fundo.png';
 import logo from '../../assets/img/logo.png';
 import { AuthActions } from '../../store/ducks/auth';
 import { showError } from '../../utils';
+import {Loader, LoaderContainer} from "../Splash/styles";
 
 class Login extends Component {
   static propTypes = {
@@ -24,8 +25,8 @@ class Login extends Component {
   }
 
   state = {
-    email: 'hygor@mail.com',
-    password: '123456',
+    email: '',
+    password: '',
   }
 
   componentWillReceiveProps(nextProps) {
@@ -60,7 +61,7 @@ class Login extends Component {
   };
 
   render() {
-    const { navigation: { navigate } } = this.props;
+    const { navigation: { navigate }, auth } = this.props;
     const { email, password } = this.state;
 
     return (
@@ -86,12 +87,23 @@ class Login extends Component {
           value={password}
           onChangeText={(state) => { this.setState({ password: state }); }}
         />
-        <Button onPress={this.login}>
-          <ButtonText>Entrar</ButtonText>
-        </Button>
-        <Button transparent onPress={() => navigate('SignUp')}>
+        {
+          auth.loading ? (
+            <LoaderContainer>
+              <Loader />
+            </LoaderContainer>
+          ) : (
+            <>
+            <Button onPress={this.login}>
+              <ButtonText>Entrar</ButtonText>
+            </Button>
+            <Button transparent onPress={() => navigate('SignUp')}>
           <ButtonText>Criar conta gratuita</ButtonText>
-        </Button>
+          </Button>
+            </>
+          )
+        }
+
       </Background>
     );
   }

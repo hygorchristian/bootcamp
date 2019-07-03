@@ -15,3 +15,15 @@ export const showSuccess = (message) => {
     duration: Snackbar.LENGTH_LONG,
   });
 };
+
+export const validator = (array) => {
+  let retorno = true;
+  array.forEach((field) => {
+    if (field.length === 0) {
+      showError('Preencha todos os campos');
+      retorno = false;
+    }
+  });
+
+  return retorno;
+};

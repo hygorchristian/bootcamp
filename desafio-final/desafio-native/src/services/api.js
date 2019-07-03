@@ -1,11 +1,7 @@
 import axios from 'axios';
-import { Platform } from 'react-native';
 
 const api = axios.create({
-  baseURL: Platform.select({
-    ios: 'http://localhost:3333',
-    android: 'http://10.0.2.2:3333',
-  }),
+  baseURL: 'https://gonode-desafio-node.herokuapp.com',
 });
 
 const auth = token => (
@@ -16,18 +12,13 @@ const auth = token => (
   }
 );
 
-export const getFile = (file) => {
-  const base = Platform.select({
-    ios: 'http://localhost:3333',
-    android: 'http://10.0.2.2:3333',
-  });
+export const getFile = file => `https://gonode-desafio-node.herokuapp.com/files/${file.id}`;
 
-  return `${base}/files/${file.id}`;
-};
+export const getSocketUrl = () => 'ws://gonode-desafio-node.herokuapp.com';
 
 export const login = data => api.post('/sessions', data);
 export const createUser = data => api.post('/users', data);
-export const getPedidos = id => api.post(`/pedidos?user_id=${id}`, data);
+export const getPedidos = ({ id, token }) => api.get(`/pedidos?user_id=${id}`, auth(token));
 export const updateUser = (data, token) => api.put('/users', data, auth(token));
 export const getCategorias = () => api.get('/categorias');
 export const getProdutos = categoria => api.get('/produtos', {
@@ -35,7 +26,7 @@ export const getProdutos = categoria => api.get('/produtos', {
     categoria,
   },
 });
-// export const getCategories = () => api.get('/categorias');
+export const postPedido = ({ token, data }) => api.post('/pedidos', data, auth(token));
 
 
 export default api;
